@@ -1,0 +1,240 @@
+
+/*
+master v 1.1 © 2011 Harry Burt <jarry1250@gmail.com>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
+
+html {
+	background:url('bg.png') white repeat 0 0;
+	font-family:Helvetica,Arial,sans-serif;
+	color: #444;
+}
+html, body {
+	margin: 0;
+	padding: 0;
+}
+#content, #footer, .boxes-holder{
+	margin:0px auto 20px auto;
+	width:70%;
+}
+#content, #footer, .boxes li {
+	background:white;
+    border: 1px solid #999;
+	padding: 2%;
+}
+.boxes {
+	margin: 0 -3.5%;
+	padding: 0;
+}
+.boxes li {
+	width: 27.5%;
+	max-width: 350px;
+	display: inline-block;
+	margin: 1% 0.5%;
+	vertical-align: top;
+}
+#content{
+	margin-top: 80px;
+}
+#footer{
+	margin-bottom:40px;
+	font-size:80%;
+}	
+#header{
+	position: fixed;
+	min-height: 45px;
+	top: 0;
+	padding:0px;
+	width:100%;
+	border-bottom: 1px solid #999;
+	
+	background: #f8f8f8; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f8f8f8 0%, #f8f8f8 44%, #cccccc 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(44%,#f8f8f8), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #f8f8f8 0%,#f8f8f8 44%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #f8f8f8 0%,#f8f8f8 44%,#cccccc 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #f8f8f8 0%,#f8f8f8 44%,#cccccc 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #f8f8f8 0%,#f8f8f8 44%,#cccccc 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8f8f8', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+}
+h1 {
+	margin: 8px 50px 0 0;
+	text-align:right;
+	text-transform:uppercase;
+	font-size:1em;
+	float:right;
+}
+h1 a {
+	color: inherit; 
+	text-decoration: inherit;
+}
+h1 a:hover:before {
+	content: '[more tools]';
+	padding-top: 15px;
+	margin-right: 10px;
+	font-size: 70%;
+}
+#header img {
+	position: fixed;
+	right: 6px;
+	top: 3px;
+}
+#header h2 {
+	margin: 10px;
+	font-size: 1.3em;
+}
+.b {
+	font-size:150%;
+}
+.screenreaders {
+	position: absolute;
+	left: -500px;
+}
+.more {
+	font-size:90%;
+	font-style:italic;
+	margin-bottom:20px;
+	margin-top:5px;
+	margin-right:10px;
+	float:right;
+	clear:right;
+}
+.benchmark{
+	font-size:60%;
+}
+pre {
+	white-space: pre-wrap;       /* css-3 */
+	white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+	white-space: -pre-wrap;      /* Opera 4-6 */
+	white-space: -o-pre-wrap;    /* Opera 7 */
+	word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+table{
+	padding: 0;
+	margin: 10px 0;
+}
+th {
+	color: #4f6b72;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size:70%;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA;
+}
+
+th.nobg {
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: none;
+}
+
+td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background-color: #fff;
+	padding: 2px 2px 2px 4px;
+	color: #4f6b72;
+}
+
+td.alt {
+	background-color: #F5FAFA;
+	color: #797268;
+}
+
+th.orig {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background-color: #fff;
+}
+
+th.alt {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background-color: #f5fafa;
+	color: #797268;
+}
+input, select{
+	margin-left:8px;
+	margin-right:8px;
+}
+hr {
+	margin:10px 0;
+}
+.tsint-promobox{
+	width:48%;
+	float:right;
+}
+.tsint-logo{
+	float:right;
+}
+.footer-left{
+	width:48%;
+}
+.error p:first-child, .error h3:first-child, .statusbox p:first-child{
+	margin-top:0;
+}
+.error p, .statusbox p:last-child, .statusbox ul{
+	margin-bottom:0;
+}
+.error {
+	padding:15px;
+	margin-bottom:10px;
+	background: none repeat scroll 0 0 #FFB0B0;
+    border: 3px solid red;
+}
+#statusbox {
+    background-color: white;
+    border: 3px solid black;
+    bottom: 0;
+    font-size: 80%;
+    padding: 15px;
+    position: fixed;
+    right: 0;
+    width: 400px;
+	z-index:10;
+	float:right; /* For JS-disabled */
+}
+#dismiss, #dismiss a{
+	text-align: right;
+	margin: -5px 0pt; 
+	text-transform: uppercase;
+	color: grey;
+	font-weight: bold;
+	text-decoration: none;
+}
+#dismiss a img{
+	margin-bottom:-4px;
+}
+#dismiss:hover span{
+	text-decoration:underline;
+}
+table.diff td{
+	color:gray;
+	min-width:25%;
+}
+table.diff td.diff-marker{
+	font-weight: bold;
+	min-width:2% !important;
+}
+.diff-addedline, .diff-deletedline{
+	font-weight:bold;
+}
