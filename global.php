@@ -79,8 +79,8 @@ $htmltag
 	</head>
 	<body>
 		<div id="header">
-			<h1><a href="http://tools.wmflabs.org/jarry-common"><span class="b">J</span>arry1250's <span class="b">T</span>ools<img src="labs-logo.png" title="Powered by Wikimedia Labs" border="0" width="32px" alt="Powered by Wikimedia Labs"></a></h1>
-			<h2 class="screenreaders">' . $onesan . '</h2>';
+			<h1><a href="http://tools.wmflabs.org/jarry-common"><span class="b">J</span>arry1250's <span class="b">T</span>ools<img src="//tools.wmflabs.org/jarry-common/labs-logo.png" title="Powered by Wikimedia Labs" border="0" width="32px" alt="Powered by Wikimedia Labs"></a></h1>
+			<h2 class="screenreaders">$onesan</h2>
 		</div>
 			<div id="content">
 EOT;
