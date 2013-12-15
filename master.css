@@ -26,11 +26,11 @@ html, body {
 	margin: 0;
 	padding: 0;
 }
-#content, #footer, .boxes-holder{
+#content, #footer, .additional, .boxes-holder{
 	margin:0px auto 20px auto;
 	width:70%;
 }
-#content, #footer, .boxes li {
+#content, #footer, .additional, .boxes li {
 	background:white;
     border: 1px solid #999;
 	padding: 1.5%;
