@@ -1,6 +1,6 @@
 <?php	
 	/**
-	 * global.php © 2011
+	 * global.php ï¿½ 2011
 	 * @author Harry Burt <jarry1250@gmail.com>
 	 *
 	 * @todo reintegrate i18n now we're on Labs
@@ -28,8 +28,10 @@
 		<h2 class="screenreaders">Tools</h2>
 		<div class="boxes-holder">
 			<ul class="boxes">
+				<li><h3><a href="http://tools.wmflabs.org/wikicup/">WikiCup</a></h3><p>Live scores, plus individual and competition totals.</p><p class="source"><a href="https://github.com/Jarry1250/labs-wikicup">view source</p></li>
 				<li><h3><a href="/~jarry/svgtranslate/">SVG Translate</a></h3><p>Translate an SVG into a language or your choice.</p></li>
 				<li><h3><a href="/~jarry/svgcheck/">SVG Check</a></h3><p>Preview the display of SVG files and detect errors.</p></li>
+				<li><h3><a href="http://tools.wmflabs.org/wmukevents/">Wikimedia UK events</a></h3><p>Auto-generate .ics (calendar) file</p><p class="source"><a href="https://github.com/Jarry1250/labs-wmukevents">view source</p></li>
 				<li><h3><a href="/~jarry/templatecount/index.php">Template transclusion counter</a></h3><p>Finds the number of times that a template is transcluded <em>(Wikipedia only)</em>.</li>
 			</ul>
 <?php
