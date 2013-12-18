@@ -21,7 +21,9 @@
  */
 
 require_once( '/home/project/i/n/t/intuition/ToolserverI18N/ToolStart.php' );
-$I18N = new TsIntuition( 'jarry' );
+$I18N = new TsIntuition( array(
+	'domain' => 'jarry',
+) );
 
 //Request submitted for
 
@@ -34,7 +36,7 @@ $I18N->setMsg('warning', 'Warning', 'general');
 $I18N->setMsg('error-filename', 'There was a problem with your choice of filename. Either it does not fit the correct pattern ("File:Example.svg") or a file already exists at that filename.', 'svgtranslate');
 $I18N->setMsg('error-licensing', 'There was a problem ascertaining the license of the source SVG file from the file description page. This may be due to the lack of a recognised license or the presence of a deletion template.', 'svgtranslate');
 $I18N->setMsg('description-edit', 'edit the description page', 'svgtranslate');
-$I18N->setMsg('error-status', 'The Toolserver is experiencing problems at the moment.', 'jarry');
+$I18N->setMsg('error-status', 'Wikimedia Labs is experiencing problems at the moment.', 'jarry');
 $I18N->setMsg('error-server-status', 'Database cluster(s) $1 is/are experiencing problems at the moment.', 'jarry');
 $I18N->setMsg('error-server-lag', 'Database cluster(s) $1 is/are experiencing significant lags of more than five minutes at the moment.', 'jarry');
 $I18N->setMsg('error-output-impaired', 'Depending on what action you are trying to perform, this may negatively affect the accuracy of any output you receive.', 'jarry');
@@ -48,20 +50,6 @@ $I18N->setMsg('server-desc-s7', 'Issues with S7 affect data collected from a num
 $I18N->setMsg('error-lag-duration', 'Data from this cluster is currently lagged by $1 seconds.', 'jarry');
 $I18N->setMsg('error-current-status', 'Its current status is $1.', 'jarry');
 $I18N->setMsg('forking', 'detailed forking instructions', 'jarry');
-$I18N->setMsg('introduction', 'This tool shows all article titles that match a regular expression pattern ($1).', 'grep');
-$I18N->setMsg('explanation', 'explanation', 'grep');
-$I18N->setMsg('regex', 'Regular expression', 'grep');
-$I18N->setMsg('enter-details', 'Enter details', 'grep');
-$I18N->setMsg('results', 'Results', 'grep');
-$I18N->setMsg('language-label', 'Language', 'grep');
-$I18N->setMsg('namespace-label', 'Namespace', 'grep');
-$I18N->setMsg('project-label', 'Project', 'grep');
-$I18N->setMsg('pattern-label', 'Pattern', 'grep');
-$I18N->setMsg('redirects-label', 'Include redirects', 'grep');
-$I18N->setMsg('limit-label', 'Limit the display to the first 100 results', 'grep');
-$I18N->setMsg('error-nosuchproject', "That language-project combination does not seem to exist. Please use your browser's back button to try again.", 'grep');
-$I18N->setMsg('error-zeroresults', 'There are no pages in that namespace with titles maching your regular expression.', 'grep');
-$I18N->setMsg('match-count', '$1 page(s) matched your regular expression.', 'grep');
 $I18N->setMsg('namespace-main', '(main)', 'jarry');
 
 function to_utf8( $string ) {
