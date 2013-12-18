@@ -99,7 +99,7 @@ EOT;
 								 'variables' => array( $I18N->dateFormatted( filemtime( realpath( $_SERVER["SCRIPT_FILENAME"] ) ) ) )
 							 )
 						 ) . ". ";
-				$html .= _html( 'options', 'general' ) . ': <a href="https://github.com/Jarry1250/labs-' . dirname( $_SERVER["PHP_SELF"] ) . '/">' . strtolower( _html( 'view-source', 'general' ) ) . '</a> &ndash; ';
+				$html .= _html( 'options', 'general' ) . ': <a href="https://github.com/Jarry1250/labs-' . substr( dirname( $_SERVER["PHP_SELF"] ), 1 ) . '/">' . strtolower( _html( 'view-source', 'general' ) ) . '</a> &ndash; ';
 				$html .= '<a href="https://bugzilla.wikimedia.org/enter_bug.cgi?product=Tool%20Labs%20tools" target="_blank">' . _html( 'bugs', 'jarry' ) . '</a> &ndash; ';
 				$html .= '<a href="//en.wikipedia.org/wiki/User_talk:Jarry1250" target="_blank">' . _html( 'comments', 'jarry' ) . '</a>';
 				if( file_exists( dirname( realpath( $_SERVER["SCRIPT_FILENAME"] ) ) . "/doc/index.php" ) ){
