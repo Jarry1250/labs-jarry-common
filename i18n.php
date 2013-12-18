@@ -19,7 +19,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-require_once( '/home/project/intuition/src/Intuition/ToolStart.php' );
+require_once( '/data/project/intuition/src/Intuition/ToolStart.php' );
 $I18N = new TsIntuition( array(
 	'domain' => 'jarry',
 ) );
