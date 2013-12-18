@@ -1,8 +1,7 @@
 <?php
 /**
- * Personal internationalisation © 2011
+ * Personal internationalisation © 2011 - 2013
  * @author Harry Burt <jarry1250@gmail.com>
- * @license http://www.opensource.org/licenses/lgpl-2.1 LGPL 2.1
  * @package Jarry
  *  
  * This program is free software; you can redistribute it and/or modify
@@ -20,7 +19,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-require_once( '/home/project/i/n/t/intuition/ToolserverI18N/ToolStart.php' );
+require_once( '/home/project/intuition/src/Intuition/ToolStart.php' );
 $I18N = new TsIntuition( array(
 	'domain' => 'jarry',
 ) );
