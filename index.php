@@ -3,7 +3,7 @@
 	 * global.php � 2011
 	 * @author Harry Burt <jarry1250@gmail.com>
 	 *
-	 * @todo reintegrate i18n now we're on Labs
+	 * @todo "Introduction" -> i18n
 	 *  
 	 * This program is free software; you can redistribute it and/or modify
 	 * it under the terms of the GNU General Public License as published by
@@ -28,11 +28,11 @@
 		<h2 class="screenreaders">Tools</h2>
 		<div class="boxes-holder">
 			<ul class="boxes">
-				<li><h3><a href="http://tools.wmflabs.org/wikicup/">WikiCup</a></h3><p>Live scores, plus individual and competition totals.</p><p class="source"><a href="https://github.com/Jarry1250/labs-wikicup">view source</p></li>
+				<li><h3><a href="http://tools.wmflabs.org/wikicup/">WikiCup</a></h3><p>Live scores, plus individual and competition totals.</p><p class="source"><a href="https://github.com/Jarry1250/labs-wikicup"><?= _html( 'view-source' , 'general' ); ?></p></li>
 				<li><h3><a href="http://toolserver.org/~jarry/svgtranslate/">SVG Translate</a></h3><p>(Non-functional.) Translate an SVG into a language or your choice.</p></li>
-				<li><h3><a href="http://tools.wmflabs.org/svgcheck/">SVG Check</a></h3><p>Preview the display of SVG files and detect errors.</p><p class="source"><a href="https://github.com/Jarry1250/labs-svgcheck">view source</p></li>
-				<li><h3><a href="http://tools.wmflabs.org/wmukevents/">Wikimedia UK events</a></h3><p>Auto-generated .ics (calendar) file</p><p class="source"><a href="https://github.com/Jarry1250/labs-wmukevents">view source</p></li>
-				<li><h3><a href="http://tools.wmflabs.org/signpost/">Signpost publishing</a></h3><p>Tools built to assist the Signpost's Editor-in-Chief</p><p class="source"><a href="https://github.com/Jarry1250/labs-signpost">view source</p></li>
+				<li><h3><a href="http://tools.wmflabs.org/svgcheck/">SVG Check</a></h3><p>Preview the display of SVG files and detect errors.</p><p class="source"><a href="https://github.com/Jarry1250/labs-svgcheck"><?= _html( 'view-source' , 'general' ); ?></p></li>
+				<li><h3><a href="http://tools.wmflabs.org/wmukevents/">Wikimedia UK events</a></h3><p>Auto-generated .ics (calendar) file</p><p class="source"><a href="https://github.com/Jarry1250/labs-wmukevents"><?= _html( 'view-source' , 'general' ); ?></p></li>
+				<li><h3><a href="http://tools.wmflabs.org/signpost/">Signpost publishing</a></h3><p>Tools built to assist the Signpost's Editor-in-Chief</p><p class="source"><a href="https://github.com/Jarry1250/labs-signpost"><?= _html( 'view-source' , 'general' ); ?></p></li>
 			</ul>
 <?php
 	echo get_html( 'footer' );
