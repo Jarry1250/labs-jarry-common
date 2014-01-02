@@ -75,11 +75,11 @@
 			// And compare
 			if( $newcount >= $nextmilestone ){
 				echo "<strong>This project has an announcement to make. </strong>\n";
-				$identifier = str_replace( "_", " ", $identifier );
+				$identifier = trim( str_replace( "_", " ", $identifier ) );
 				// Chip off a milestone from the file
 				$newfile .= substr( $lines[$i], 0, $commas[1] ) . ", " . $newcount . substr( $lines[$i], $commas[3] );
 				// Based on namespace, write appropriate message
-				switch( $namespace ){
+				switch( trim( $namespace ) ){
 					case "on-template":
 						$code = substr( $identifier, 0, 2 );
 						switch( $code ){
@@ -192,26 +192,22 @@
 			case "on-template":
 				// This way is messier, but more reliable, than grabbing the Wiki edit page because of protection
 				$identifier = str_replace( " ", "_", $identifier );
-				$page = file_get_contents( ( "http:// en.wikipedia.org/wiki/Template:" . $identifier ) );
+				$page = file_get_contents( ( "http://en.wikipedia.org/wiki/Template:" . $identifier ) );
 				preg_match( "/[^0-9a-zA-Z]p[^0-9a-zA-Z]([0-9]{4,6})[^0-9a-zA-Z!]\/p[^0-9a-zA-Z!]/", $page, $matches );
 				return $matches[1];
-				break;
-			case "Template":
-				return -1;
 				break;
 			case "Category":
 				// fall through
 			case "total":
 				// fall through
 			default:
-				$identifier = str_replace( " ", "_", $identifier );
-				$identifier = str_replace( "&", "%26", $identifier );
-				$page = file_get_contents( "https://tools.wmflabs.org/erwin85/categorycount.php?lang=en&family=wikipedia&namespaces=1&category=" . $identifier . "&subcats=1&d=10&submit=Submit" );
-				preg_match( "/There are ([0-9]+) articles/", $page, $matches );
-				if( strlen( $matches[1] ) == 0 ){
+				$identifier = urlencode( $identifier );
+				$page = json_decode( file_get_contents( 'https://en.wikipedia.org/w/api.php?format=json&action=query&prop=categoryinfo&titles=Category:' . $identifier ), true );
+				try {
+					$page = array_shift( $page['query']['pages'] );
+					return $page['categoryinfo']['pages'];
+				} catch( Exception $e ) {
 					return -1;
-				} else {
-					return $matches[1];
 				}
 		}
 	}
