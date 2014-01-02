@@ -20,7 +20,7 @@
 	require_once( '/data/project/jarry-common/public_html/peachy/Init.php' );
 	$filename = '/data/project/jarry-common/public_html/scripts/ga.txt';
 
-	global $wiki;
+
 	$wiki = Peachy::newWiki( 'livingbot' );
 
 	$page = new Page( $wiki, "Wikipedia:Good articles/all" );
@@ -56,98 +56,92 @@
 		}
 	}
 
-	$old = strtolower( file_get_contents( $filename ) );
-	$matches = array();
+	$existing = strtolower( file_get_contents( $filename ) );
+	$articles = array();
 	foreach( $subpages as $subpage ){
 		$page = new Page( $wiki, "Wikipedia:Good articles/$subpage" );
 		$contents = $page->get_text();
 		preg_match_all( "/('')?\[\[([^]:]*)\]\]('')?/i", $contents, $temp );
 		echo count( $temp[0] ) . "-";
-		$matches = array_merge( $matches, $temp[0] );
+		$articles = array_merge( $articles, $temp[0] );
 	}
+	$total = strtolower( implode( "\t", $articles ) );
+
 	$page = new Page( $wiki, "Wikipedia talk:Good articles" );
 	$contents = $page->get_text();
-	preg_match_all( "/('')?\[\[([^]:]*)\]\]('')?/i", $contents, $listed );
+	preg_match_all( "/('')?\[\[([^]:]*)\]\]('')?/i", $contents, $underDiscussion );
+
 	$page = new Page( $wiki, "Wikipedia:Good articles/recent" );
 	$contents = $page->get_text();
 	preg_match_all( "/('')?\[\[([^]:]*)\]\]('')?/i", $contents, $recents );
 	$recentlist = $recents[0];
-	$total = strtolower( implode( "\t", $matches ) );
-	if( count( $matches ) == ( count( explode( "\t", $old ) ) ) ){
+
+	if( count( $articles ) == count( explode( "\t", $existing ) ) ){
 		file_put_contents( $filename, $total );
 		echo "Overall, the number of GAs has remained the same. Assuming only renames, or similar.\n";
 		echo "--- Finishing report ---\n";
 		die();
 	}
-	if( count( $matches ) < ( count( explode( "\t", $old ) ) ) ){
+
+	if( count( $articles ) < ( count( explode( "\t", $existing ) ) ) ){
 		file_put_contents( $filename, $total );
 		echo "Overall, the number of GAs has gone down. Assumed malfunction.\n";
 		echo "--- Finishing report ---\n";
 		die();
 	}
-	$edited = 0;
-	$items = " (";
-	$plural = "y (";
-	$removeds[] = array();
+
+	$addeds = array();
+	$removeds = array();
 	echo "Presently listed items:\n* " . implode( $recentlist, "\n* " ) . "\n";
-	for( $i = 0; $i < ( count( $matches ) - 1 ); $i++ ){
-		$item = trim( $matches[$i] );
-		$delimiter = ( strpos( $item, "|" ) > 0 ) ? '|' : ']';
-		$subitem = strtolower( substr( $item, strpos( $item, "[" ), ( strpos( $item, $delimiter ) - strpos( $item, "[" ) ) ) );
-		if( strpos( $old, $subitem ) !== false ){
+	foreach( $articles as $article ){
+		$delimiter = ( strpos( $article, "|" ) > 0 ) ? '|' : ']';
+		$subitem = substr( $article, strpos( $article, "[" ), ( strpos( $article, $delimiter ) - strpos( $article, "[" ) ) );
+		$subitem = strtolower( $subitem );
+		if( strpos( $existing, $subitem ) !== false ){
+			// Already known to the bot
 			continue;
 		}
 		if( strpos( strtolower( implode( "", $recentlist ) ), $subitem ) !== false ){
+			// Already listed on /recent: presumably manually added
 			continue;
 		}
-		if( strpos( strtolower( implode( "", $listed[0] ) ), $subitem ) !== false ){
+		if( strpos( strtolower( implode( "", $underDiscussion[0] ) ), $subitem ) !== false ){
+			// A link target of the WT:GA page: under discussion/controversial
 			continue;
 		}
-		echo "Item added: $item\n";
-		if( $edited > 0 ){
-			$items .= ", ";
-		}
-		if( $edited == 1 ){
-			$items = "s" . $items;
-			$plural = "ies (";
-		}
-		$items .= $item;
-		$edited++;
-		$pos = strpos( $contents, "[" );
-		if( substr( substr( $contents, 0, $pos ), -1 ) == "'" ){
-			$pos -= 2;
-		}
-		$contents = substr( $contents, 0, $pos ) . "$item &mdash;\n" . substr( $contents, $pos );
-		$pos = strlen( $contents ) - strpos( strrev( $contents ), "hsadm&" ) - 7;
+		echo "Item added: $article\n";
+		$addeds[] = $article;
+
+		// Insert new item into page text
+		$pos = strpos( $contents, "-->" ) + 3;
+		$contents = substr( $contents, 0, $pos ) . "\n$article &mdash;\n" . substr( $contents, $pos );
+
+		// Record and remove final item from page text
+		$pos = strrpos( $contents, "&mdash" );
 		preg_match_all( "/('')?\[\[([^]:]*)\]\]('')?/i", substr( $contents, $pos ), $removed );
-		for( $a = 0; $a < count( $removed[0] ); $a++ ){
-			array_push( $removeds, $removed[0][$a] );
-		}
+		$removeds = array_merge( $removeds, $removed[0] );
 		$contents = substr( $contents, 0, $pos ) . "\n\n<!--\nAdd new articles to the top of the list, please, and remove the one from the bottom INCLUDING THE EM-DASH ON THE LINE BEFORE. Thanks! \n-->";
 
 	}
-	array_shift( $removeds );
-	$removed = $plural . implode( $removeds, ", " ) . ")";
-	$items .= ")";
-	if( $edited > 0 && ( $edited < 3 || isset( $_GET['ignoretime'] ) ) && !isset( $_GET['nopost'] ) ){
+	if( count( $addeds ) > 0 && ( count( $addeds ) < 3 || isset( $_GET['ignoretime'] ) ) && !isset( $_GET['nopost'] ) ){
 		$page = new Page( $wiki, "Wikipedia:Good articles/recent" );
+
+		$addedStr = ( count( $addeds ) > 1 ) ? 's (' : ' (';
+		$addedStr .= implode( ', ', $addeds ) . ')';
+
+		$removedStr = ( count( $addeds ) > 1 ) ? 'ies' : 'y';
+		$removedStr .= implode( ', ', $removeds ) . ')';
+
+		$editSummary = "Bot adding recently promoted article$addedStr, removing oldest entr$removedStr. [[User_talk:LivingBot|Incorrect?]]";
+
 		$i = 0;
 		while( ++$i < 5 ){
-			if( $page->edit( $contents, "Bot adding recently promoted article$items, removing oldest entr$removed. [[User_talk:LivingBot|Incorrect?]]", false, true ) !== false ){
-				file_put_contents( $filename, $total );
-				break;
-			}
+			if( $page->edit( $contents, $editSummary, false, true ) !== false ) break;
 			sleep( 5 );
 		}
-		if( $i == 5 ) {
-			file_put_contents( $filename, $total );
-			echo "Tried but failed to write changes.\n";
-		} else {
-			echo "Changes written.\n";
-		}
+		echo ( $i == 5 ) ? "Tried but failed to write changes." : "Changes written.";
 	} else {
-		file_put_contents( $filename, $total );
-		echo "Changes not written (edited=$edited).\n";
+		echo "Changes not written (edited=" . count( $addeds ) . ")";
 	}
-
-	echo "--- Finishing report ---\n";
+	file_put_contents( $filename, $total );
+	echo "\n--- Finishing report ---\n";
