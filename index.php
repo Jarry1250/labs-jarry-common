@@ -23,7 +23,7 @@
 	
 	echo get_html( 'header', 'Introduction' );
 ?>
-			<p>Welcome to my Toolserver pages. If you have any queries, you can always contact me by leaving a message on <a href="//en.wikipedia.org/wiki/User_talk:Jarry1250">my en.wp talk page</a> or by following that page's "Email this user" link. <em>Note that tools may be periodically removed. If you rely on one that does get removed, just tell me and I will replace it for you.</em> The last such rotation was in December 2013, during the transition to Labs.</p>
+			<p>Welcome to my index of Wikimedia Labs tools I (User:Jarry1250) have been involved in the development of. If you have any queries, you can always contact me by leaving a message on <a href="//en.wikipedia.org/wiki/User_talk:Jarry1250">my en.wp talk page</a> or by following that page's "Email this user" link. <em>Note that tools may be periodically removed. If you rely on one that does get removed, just tell me and I will replace it for you.</em> The last such rotation was in December 2013, during the transition to Labs.</p>
 		</div>
 		<h2 class="screenreaders">Tools</h2>
 		<div class="boxes-holder">
