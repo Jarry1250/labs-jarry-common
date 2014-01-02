@@ -129,7 +129,7 @@
 		$addedStr = ( count( $addeds ) > 1 ) ? 's (' : ' (';
 		$addedStr .= implode( ', ', $addeds ) . ')';
 
-		$removedStr = ( count( $addeds ) > 1 ) ? 'ies' : 'y';
+		$removedStr = ( count( $addeds ) > 1 ) ? 'ies (' : 'y (';
 		$removedStr .= implode( ', ', $removeds ) . ')';
 
 		$editSummary = "Bot adding recently promoted article$addedStr, removing oldest entr$removedStr. [[User_talk:LivingBot|Incorrect?]]";
