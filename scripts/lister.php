@@ -136,7 +136,7 @@
 
 		$i = 0;
 		while( ++$i < 5 ){
-			if( $page->edit( $contents, $editSummary, false, true ) !== false ) break;
+			if( $page->edit( $contents, substr( $editSummary, 0, 255 ), false, true ) !== false ) break;
 			sleep( 5 );
 		}
 		echo ( $i == 5 ) ? "Tried but failed to write changes." : "Changes written.";
