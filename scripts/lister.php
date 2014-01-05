@@ -20,7 +20,7 @@
 	require_once( '/data/project/jarry-common/public_html/peachy/Init.php' );
 	$filename = '/data/project/jarry-common/public_html/scripts/ga.txt';
 
-
+	echo "\n--- Beginning report ---\n";
 	$wiki = Peachy::newWiki( 'livingbot' );
 
 	$page = new Page( $wiki, "Wikipedia:Good articles/all" );
@@ -31,8 +31,7 @@
 
 	preg_match_all( "/\{\{Wikipedia:Good articles\/([^}]+)\}\}/i", $bits[1], $subpages );
 	$subpages = $subpages[1];
-	echo "Recognised the following subpages: ";
-	print_r( $subpages );
+	echo "Recognised " . count( $subpages )  . "  subpages\n";
 
 	$timestamps = array();
 	foreach( $subpages as $subpage ){
@@ -42,7 +41,6 @@
 	}
 	$timestamp = max( $timestamps );
 
-	echo "--- Beginning report ---\n";
 	if( ( !isset( $_GET['nopost'] ) || $_GET['nopost'] != "y" ) && ( !isset( $_GET['ignoretime'] ) || $_GET['ignoretime'] != 'y' ) ){
 		$backfive = time() - 700;
 		$nowstring = floatval( date( "YmdHis", $backfive ) );
@@ -54,6 +52,7 @@
 			echo "--- Finishing report ---\n";
 			die();
 		}
+		echo "Edits since last-but-one check, proceeding...\n";
 	}
 
 	$existing = strtolower( file_get_contents( $filename ) );
