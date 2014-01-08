@@ -113,7 +113,7 @@
 
 		// Insert new item into page text
 		$pos = strpos( $contents, "-->" ) + 3;
-		$contents = substr( $contents, 0, $pos ) . "\n$article &mdash;\n" . substr( $contents, $pos );
+		$contents = substr( $contents, 0, $pos ) . "\n$article &mdash;" . substr( $contents, $pos );
 
 		// Record and remove final item from page text
 		$pos = strrpos( $contents, "&mdash" );
