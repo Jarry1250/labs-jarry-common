@@ -232,7 +232,13 @@
 				// We're using secret key signatures here.
 				'oauth_signature_method' => 'HMAC-SHA1',
 			);
-			$signature = $this->signRequest( 'POST', $this->apiUrl, $post + $headerArr );
+			$post['format'] = 'json';
+			if( $post['action'] === 'upload' ){
+				$signature = $this->signRequest( 'POST', $this->apiUrl, $headerArr );
+			} else {
+				$signature = $this->signRequest( 'POST', $this->apiUrl, $post + $headerArr );
+				$post = http_build_query( $post );
+			}
 			$headerArr['oauth_signature'] = $signature;
 
 			$header = array();
@@ -240,9 +246,6 @@
 				$header[] = rawurlencode( $k ) . '="' . rawurlencode( $v ) . '"';
 			}
 			$additionalHeaders[] = 'Authorization: OAuth ' . join( ', ', $header );
-			if( $post['action'] !== 'upload' ){
-				$post = http_build_query( $post );
-			}
 			if( !$ch ){
 				$ch = curl_init();
 			}
@@ -272,7 +275,6 @@
 		public function authorizeMe(){
 			// We're going to test our authorization status using a simple API call
 			$queryParams = array(
-				'format' => 'json',
 				'action' => 'query',
 				'meta' => 'userinfo',
 			);
