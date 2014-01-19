@@ -290,6 +290,8 @@
 				// And retry
 				$res = $this->doApiQuery( $queryParams, $ch );
 			}
-			return $res->query->userinfo->name;
+
+			// Anonymous users cannot authenticate, so authentication must have failed
+			return ( !isset( $res->query->userinfo->anon ) ) ? $res->query->userinfo->name : false;
 		}
 	}
