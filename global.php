@@ -1,10 +1,10 @@
 <?php
 	/**
-	 * global.php © 2011
+	 * Global functions © 2011-14
 	 * @author Harry Burt <jarry1250@gmail.com>
 	 *
 	 * @todo fix counter for Labs
-	 * @todo fix getnamespaces, getstatus for Labs
+	 * @todo fix getstatus for Labs
 	 *
 	 * This program is free software; you can redistribute it and/or modify
 	 * it under the terms of the GNU General Public License as published by
@@ -21,17 +21,22 @@
 	 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 	 */
 
-	require_once( '/data/project/jarry-common/public_html/i18n.php' );
-	require_once( '/data/project/jarry-common/public_html/database.php' );
-	require_once( '/data/project/jarry-common/public_html/peachy/HTTP.php' );
-
 	ini_set( 'user_agent', 'Wikimedia Labs tool' );
 	ini_set( 'display_errors', 1 );
 	error_reporting( E_ALL );
 
+	require_once( '/data/project/jarry-common/public_html/i18n.php' );
+	require_once( '/data/project/jarry-common/public_html/database.php' );
+
+	// Now (hackily) give us access to Peachy's helpful HTTP library
+	define( 'PEACHYVERSION', 2 );
+	require_once( '/data/project/jarry-common/public_html/peachy/Includes/Hooks.php' );
+	require_once( '/data/project/jarry-common/public_html/peachy/HTTP.php' );
+
 	function get_html( $str, $one = '', $two = '' ) {
 		global $I18N;
 		$lang = $I18N->getLang();
+		$html = '';
 		switch( $str ){
 			case "header":
 				$onesan = preg_replace( '/[<][^>]+[>]/', '', $one );
@@ -106,7 +111,7 @@ EOT;
 				if( file_exists( dirname( realpath( $_SERVER["SCRIPT_FILENAME"] ) ) . "/doc/index.php" ) ){
 					$html .= ' &ndash; <a href="doc/index.php" target="_blank">' . _html( 'forking', 'jarry' ) . '</a>';
 				}
-				$html .= ".</p>\n\t\t\t\t<br clear='both' style='display:none;'/>";
+				$html .= ".</p>\n\t\t\t\t<br style='clear:both; display:none;'/>";
 				$html .= "\n\t\t</div>\n\t</body>\n</html>";
 				break;
 		}
@@ -214,14 +219,18 @@ EOT;
 		$http = HTTP::getDefaultInstance();
 		$apiUrl = "https://$langcode.$projectcode.org/w/api.php?format=json&action=query&meta=siteinfo&siprop=namespaces";
 		$json = json_decode( $http->get( $apiUrl ), true );
+
+		if( $json == false || count( $json ) == 0 ) return array();
+
 		$namespaces = array();
 		foreach( $json['query']['namespaces'] as $key => $namespace ){
+			if( $key < 0 ) continue;
 			$namespaces[$key] = $namespace['*'];
 		}
 		return $namespaces;
 	}
 
-	function getNamespaceSelect( $langcode, $default, $projectcode = 'wiki' ) {
+	function getNamespaceSelect( $langcode, $default, $projectcode = 'wikipedia' ) {
 		$namespaces = getNamespaces( $langcode, $projectcode );
 		$html = "<select name=\"namespace\" width=\"40\">\n";
 		foreach( $namespaces as $code => $name ){
