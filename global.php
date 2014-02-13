@@ -239,7 +239,7 @@ EOT;
 	}
 
 	class Counter {
-		const PATH = '/data/project/jarry-common/counters/';
+		const PATH = '/data/project/jarry-common/public_html/counters/';
 		public static function getCounter( $filename ) {
 			$filepath = self::PATH . $filename;
 			if( !file_exists( $filepath ) ){
