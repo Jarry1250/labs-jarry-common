@@ -23,6 +23,7 @@
 
 	require_once( '/data/project/jarry-common/public_html/i18n.php' );
 	require_once( '/data/project/jarry-common/public_html/database.php' );
+	require_once( '/data/project/jarry-common/public_html/peachy/HTTP.php' );
 
 	ini_set( 'user_agent', 'Wikimedia Labs tool' );
 	ini_set( 'display_errors', 1 );
@@ -209,21 +210,20 @@ EOT;
 			}	*/
 	}
 
-	function get_namespaces( $langcode, $projectcode ) {
-		global $I18N;
-		return array();
-		dbconnect( 'toolserver' );
+	function getNamespaces( $langcode, $projectcode ) {
+		$http = HTTP::getDefaultInstance();
+		$apiUrl = "https://$langcode.$projectcode.org/w/api.php?format=json&action=query&meta=siteinfo&siprop=namespaces";
+		$json = json_decode( $http->get( $apiUrl ), true );
 		$namespaces = array();
-		$result = mysql_query( "SELECT ns_name,ns_id FROM namespacename WHERE dbname='" . get_databasename( $langcode, $projectcode, "_" ) . "' AND ns_is_favorite=1 AND ns_id > -1 ORDER BY ns_id ASC" );
-		while( $row = mysql_fetch_row( $result ) ){
-			$namespaces[intval( $row[1] )] = $row[0];
+		foreach( $json['query']['namespaces'] as $key => $namespace ){
+			$namespaces[$key] = $namespace['*'];
 		}
 		return $namespaces;
 	}
 
-	function get_namespaceselect( $langcode, $default, $projectcode = 'wiki' ) {
-		$namespaces = get_namespaces( $langcode, $projectcode );
-		$html .= "<select name=\"namespace\" width=\"40\">\n";
+	function getNamespaceSelect( $langcode, $default, $projectcode = 'wiki' ) {
+		$namespaces = getNamespaces( $langcode, $projectcode );
+		$html = "<select name=\"namespace\" width=\"40\">\n";
 		foreach( $namespaces as $code => $name ){
 			if( $name == '' ){
 				$name = _html( 'namespace-main', 'jarry' );
