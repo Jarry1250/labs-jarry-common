@@ -243,6 +243,9 @@ EOT;
 		public static function getCounter( $filename ) {
 			$filepath = self::PATH . $filename;
 			if( !file_exists( $filepath ) ){
+				$dirname = dirname( $filename );
+				if( !is_dir( $dirname ) ) mkdir( $dirname, 2770, true );
+
 				file_put_contents( $filepath, '1' );
 				return 1;
 			}
