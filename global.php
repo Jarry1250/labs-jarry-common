@@ -244,8 +244,11 @@ EOT;
 			$filepath = self::PATH . $filename;
 			if( !file_exists( $filepath ) ){
 				$dirname = dirname( self::PATH . $filename );
-				if( !is_dir( $dirname ) ) mkdir( $dirname, 2777, true ); // @todo: change to 2770 after move to equiad
-
+				if( !is_dir( $dirname ) ){
+					$oldmask = umask( 0 );
+					mkdir( $dirname, 2777, true ); // @todo: change to 2770 after move to equiad
+					umask( $oldmask );
+				}
 				file_put_contents( $filepath, '1' );
 				return 1;
 			}
