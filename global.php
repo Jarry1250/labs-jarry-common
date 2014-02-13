@@ -28,7 +28,7 @@
 	require_once( '/data/project/jarry-common/public_html/database.php' );
 
 	// Now (hackily) give us access to Peachy's helpful HTTP library
-	define( 'PEACHYVERSION', 2 );
+	if( !defined( 'PEACHYVERSION' ) ) define( 'PEACHYVERSION', 2 );
 	require_once( '/data/project/jarry-common/public_html/peachy/Includes/Hooks.php' );
 	require_once( '/data/project/jarry-common/public_html/peachy/HTTP.php' );
 
@@ -244,7 +244,7 @@ EOT;
 			$filepath = self::PATH . $filename;
 			if( !file_exists( $filepath ) ){
 				$dirname = dirname( self::PATH . $filename );
-				if( !is_dir( $dirname ) ) mkdir( $dirname, 2770, true );
+				if( !is_dir( $dirname ) ) mkdir( $dirname, 2777, true ); // @todo: change to 2770 after move to equiad
 
 				file_put_contents( $filepath, '1' );
 				return 1;
