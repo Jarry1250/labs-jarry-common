@@ -118,24 +118,6 @@ EOT;
 		return $html;
 	}
 
-	function validateTUSC( $user, $pass, $language = 'commons', $project = 'wikimedia' ) {
-		$ch = curl_init(); // initialize curl handle
-		$url = 'https://toolserver.org/~magnus/tusc.php';
-		curl_setopt( $ch, CURLOPT_URL, $url ); // set url to post to
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 ); // return into a variable
-		curl_setopt( $ch, CURLOPT_TIMEOUT, 30 );
-		curl_setopt( $ch, CURLOPT_POST, 1 ); // set POST method
-		curl_setopt( $ch, CURLOPT_POSTFIELDS, 'check=1&botmode=1&user=' . urlencode( $user ) . '&language=commons&project=wikimedia&password=' . urlencode( $pass ) ); // add POST fields
-		$result = curl_exec( $ch ); // run the whole process
-		$result = ( intval( $result ) == 1 );
-		curl_close( $ch );
-		$file = '/home/jarry/public_html/tusc.txt';
-		$line = date( 'c' ) . " $user tried to validate using TUSC... ";
-		$line .= $result ? "SUCCESS" : "FAILED";
-		file_put_contents( $file, file_get_contents( $file ) . "\r\n" . $line );
-		return $result;
-	}
-
 	function error( $message, $title, $footer = '' ) {
 		$html = get_html( 'header', $title );
 		$html .= "\t\t<div class='error'>\n";
