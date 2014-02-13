@@ -3,7 +3,6 @@
 	 * Global functions © 2011-14
 	 * @author Harry Burt <jarry1250@gmail.com>
 	 *
-	 * @todo fix counter for Labs
 	 * @todo fix getstatus for Labs
 	 *
 	 * This program is free software; you can redistribute it and/or modify
@@ -240,22 +239,19 @@ EOT;
 	}
 
 	class Counter {
-		public static function get_counter( $filename ) {
-			/*
-			$filename = "/home/jarry/public_html/$filename";
-			if( !file_exists($filename) ){
-				file_put_contents( $filename, '1' );
+		const PATH = '/data/project/jarry-common/counters/';
+		public static function getCounter( $filename ) {
+			$filepath = self::PATH . $filename;
+			if( !file_exists( $filepath ) ){
+				file_put_contents( $filepath, '1' );
 				return 1;
-			} else {
-				$count = file_get_contents( $filename );
-				return intval( $count );
 			}
-			*/
-			return 'N/A';
+			$count = file_get_contents( $filepath );
+			return intval( $count );
 		}
 
 		public static function increment( $filename ) {
-			// $current = self::get_counter( $filename );
-			// file_put_contents( "/home/jarry/public_html/$filename", ( $current + 1 ) );
+			$current = self::getCounter( $filename );
+			file_put_contents( self::PATH . $filename, ( $current + 1 ) );
 		}
 	}
