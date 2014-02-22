@@ -22,20 +22,24 @@
 	function dbconnect( $database, $user = false ) {
 		// connect using user credentials (local-toolname => /data/project/toolname/replica.my.cnf)
 		$mycnf = parse_ini_file( "/data/project/" . substr( get_current_user(), 6 ) . "/replica.my.cnf" );
-		$username = $mycnf['user'];
-		$password = $mycnf['password'];
-		unset( $mycnf );
 
 		$cluster = ( preg_match( '/[-_]p$/', $database ) ) ? substr( $database, 0, -2 ) : $database;
-		$db['connected'] = mysql_connect( $cluster . '.labsdb', $username, $password )
-			|| print( '<p class="fail"><strong>Database server login failed.</strong> '
+		$mysqli = new mysqli( $cluster . '.labsdb', $mycnf['user'], $mycnf['password'] );
+		unset( $mycnf );
+
+		if( $mysqli->connect_error ) {
+			die( '<p class="fail"><strong>Database server login failed.</strong> '
 				. ' This is probably a temporary problem with the server and will be fixed soon. '
-				. ' The server returned: ' . mysql_error() . '</p>' );
-		unset( $username );
-		unset( $password );
+				. ' The server returned error code ' . $mysqli->connect_errno . '.</p>' );
+		}
 
 		// select database
-		$res = ( $db['connected'] ) ? mysql_select_db( str_replace( '-', '_', $database ) ) : false;
+		$res = $mysqli->select_db( str_replace( '-', '_', $database ) );
 
-		return $res;
+		if( $res === false ){
+			die( '<p class="fail"><strong>Database selection failed.</strong> '
+				 . ' This is probably a temporary problem with the server and will be fixed soon.' );
+		}
+
+		return $mysqli;
 	}
