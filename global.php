@@ -47,7 +47,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 $htmltag
 	<head>
-		<title>Jarry1250's Toolserver Tools - $onesan</title>
+		<title>Jarry1250's Wikimedia Laboratory - $onesan</title>
 		<meta http-equiv="Content-Type" content="charset=UTF-8" />
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="//tools.wmflabs.org/jarry-common/master.css" />
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
