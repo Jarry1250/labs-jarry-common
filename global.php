@@ -27,8 +27,7 @@
 	require_once( '/data/project/jarry-common/public_html/i18n.php' );
 	require_once( '/data/project/jarry-common/public_html/database.php' );
 
-	// Now (hackily) give us access to Peachy's helpful HTTP library
-	if( !defined( 'PEACHYVERSION' ) ) define( 'PEACHYVERSION', 2 );
+	// Now give us access to Peachy's helpful HTTP library without necessarily including the whole of Peachy
 	require_once( '/data/project/jarry-common/public_html/peachy/Includes/Hooks.php' );
 	require_once( '/data/project/jarry-common/public_html/peachy/HTTP.php' );
 
