@@ -24,8 +24,10 @@
 	ini_set( 'display_errors', 1 );
 	error_reporting( E_ALL );
 
-	require_once( '/data/project/jarry-common/public_html/i18n.php' );
-	require_once( '/data/project/jarry-common/public_html/database.php' );
+	// Load some light, standalone libraries
+	require_once( '/data/project/jarry-common/public_html/libs/i18n.php' );
+	require_once( '/data/project/jarry-common/public_html/libs/database.php' );
+	require_once( '/data/project/jarry-common/public_html/libs/diff.php' );
 
 	// Now give us access to Peachy's helpful HTTP library without necessarily including the whole of Peachy
 	require_once( '/data/project/jarry-common/public_html/peachy/Includes/Hooks.php' );
