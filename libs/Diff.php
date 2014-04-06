@@ -1,74 +1,116 @@
 <?php
-
 	/*
-		Paul's Simple Diff Algorithm v 0.1
-		(C) Paul Butler 2007 <http://www.paulbutler.org/>
-		May be used and distributed under the zlib/libpng license.
-		This code is intended for learning purposes; it was written with short
-		code taking priority over performance. It could be used in a practical
-		application, but there are a few ways it could be optimized.
-		Given two arrays, the function diff will return an array of the changes.
-		I won't describe the format of the array, but it will be obvious
-		if you use print_r() on the result of a diff on some test data.
-		htmlDiff is a wrapper for the diff command, it takes two strings and
-		returns the differences in HTML. The tags used are <ins> and <del>,
-		which can easily be styled with CSS.
+	Simple Diff class © 2014 Harry Burt <jarry1250@gmail.com>
+
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	( at your option ) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 	*/
 
 	class Diff {
-		private $html;
+		private $new;
+		private $old;
+		private $unchanged = array();
 
-		function __construct( $before, $after ) {
-			$before = preg_split( "/[\r\n]+/", $before );
-			$after = preg_split( "/[\r\n]+/", $after );
-			
-			$diff = $this->diff( $before, $after );
-
-			$this->html = '';
-			foreach( $diff as $k ){
-				if( is_array( $k ) ){
-					$this->html .= ( !empty( $k['d'] ) ? "<del>" . implode( ' ', $k['d'] ) . "</del> " : '' ) .
-					        ( !empty( $k['i'] ) ? "<ins>" . implode( ' ', $k['i'] ) . "</ins> " : '' );
-				} else {
-					$this->html .= $k . ' ';
-				}
+		public function __construct( $old, $new ) {
+			if( !is_array( $old ) ){
+				$old = preg_split( '/[\r\n]+/', htmlspecialchars( $old ) );
 			}
-		}
-	
-		private function diff ( $before, $after ) {
-			$matrix = array();
-			$maxlen = 0;
-			foreach( $before as $oindex => $ovalue ){
-				$nkeys = array_keys( $after, $ovalue );
-				foreach( $nkeys as $nindex ){
-					$matrix[$oindex][$nindex] = isset( $matrix[$oindex - 1][$nindex - 1] ) ?
-						$matrix[$oindex - 1][$nindex - 1] + 1 : 1;
-					if( $matrix[$oindex][$nindex] > $maxlen ){
-						$maxlen = $matrix[$oindex][$nindex];
-						$omax = $oindex + 1 - $maxlen;
-						$nmax = $nindex + 1 - $maxlen;
+			if( !is_array( $new ) ){
+				$new = preg_split( '/[\r\n]+/', htmlspecialchars( $new ) );
+			}
+
+			$this->new = $new;
+			$this->old = $old;
+
+			$newCount = count( $new );
+			$oldCount = count( $old );
+			$oldPointer = 0;
+			$this->unchanged[] = array( -1, -1 );
+			for( $i = 0; $i < $newCount; $i++ ){
+				for( $j = $oldPointer; $j < min( $oldCount, $oldPointer + 10 ); $j++ ){
+					if( $new[$i] === $old[$j] ){
+						$this->unchanged[] = array( $i, $j );
+						$oldPointer = $j + 1;
+						break;
 					}
 				}
 			}
-			if( $maxlen == 0 ){
-				return array( array( 'd' => $before, 'i' => $after ) );
+			$this->unchanged[] = array( $newCount, $oldCount );
+		}
+
+		private function getChunks() {
+			$chunks = array();
+			$count = count( $this->unchanged );
+			for( $i = 0; $i < ( $count - 1 ); $i++ ){
+				$me = $this->unchanged[$i];
+				$next = $this->unchanged[$i + 1];
+				$removedRange = ( $me[1] + 1 == $next[1] ) ? array() : range( $me[1] + 1, $next[1] - 1 );
+				$addedRange = ( $me[0] + 1 == $next[0] ) ? array() : range( $me[0] + 1, $next[0] - 1 );
+				if( count( $removedRange ) === 0 && count( $addedRange ) === 0 ){
+					continue;
+				}
+				$chunks[] = array(
+					'before'  => $this->getOldLine( $me[1] ),
+					'removed' => array_map( array( &$this, "getOldLine" ), $removedRange ),
+					'added'   => array_map( array( &$this, "getNewLine" ), $addedRange ),
+					'after'   => $this->getOldLine( $next[1] )
+				);
 			}
-			return array_merge(
-				$this->diff( array_slice( $before, 0, $omax ), array_slice( $after, 0, $nmax ) ),
-				array_slice( $after, $nmax, $maxlen ),
-				$this->diff( array_slice( $before, $omax + $maxlen ), array_slice( $after, $nmax + $maxlen ) )
-			);
+			return $chunks;
 		}
 
-		function getDiff() {
-			return $this->html;
+		private function getOldLine( $i ) {
+			if( $i == -1 ){
+				return "[Beginning of file]";
+			}
+			if( $i == count( $this->old ) ){
+				return "[End of file]";
+			}
+			return $this->old[$i];
 		}
 
-		function printDiff() {
-			echo $this->html;
+		private function getNewLine( $i ) {
+			if( $i == -1 ){
+				return "[Beginning of file]";
+			}
+			if( $i == count( $this->new ) ){
+				return "[End of file]";
+			}
+			return $this->new[$i];
 		}
 
-		static function load( $before, $after ) {
-			return new Diff( $before, $after );
+		public function printUnifiedDiff( $context = true, $eol = "<br />" ) {
+			$chunks = $this->getChunks();
+			echo $eol;
+			foreach( $chunks as $chunk ){
+				if( $context ){
+					echo $chunk['before'] . $eol;
+				}
+				foreach( $chunk['removed'] as $line ){
+					echo "- " . $line . $eol;
+				}
+				foreach( $chunk['added'] as $line ){
+					echo "+ " . $line . $eol;
+				}
+				if( $context ){
+					echo $chunk['after'] . $eol;
+				}
+				echo $eol;
+			}
+		}
+
+		static function load( $old, $new ) {
+			return new Diff( $old, $new );
 		}
 	}
