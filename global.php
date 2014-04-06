@@ -89,7 +89,6 @@ $htmltag
 		</div>
 			<div id="content">
 EOT;
-				$html .= "\t\t\t" . get_status() . "\n";
 				break;
 			case "footer":
 				$html = '';
@@ -126,75 +125,6 @@ EOT;
 		$html .= "\t\t</div>\n";
 		$html .= get_html( 'footer', $footer );
 		die( $html );
-	}
-
-	function get_status() {
-		return '';
-		/*	$html = '';
-			$id = 'false/';
-			$ctx = stream_context_create( array( 'http' => array( 'timeout' => 5 ) ) );
-
-			$old = ini_set('default_socket_timeout', 5);
-			try{
-				$statusdata = file_get_contents( 'https://toolserver.org/tsstatus/json', false, $ctx );
-			} catch(Exception $e) { $statusdata = false; }
-			if( $statusdata ){
-				$statusdata = json_decode( $statusdata, true );
-				foreach( $statusdata['statuses'] as $status ){
-					if( $status['@status'] !== 'OK' ){
-						$html .= '<p>' . _html( 'error-status', 'jarry' ) .  ' ' . _html( 'error-output-impaired', 'jarry' ) . '</p>';
-						$id = 'true/';
-						break;
-					}
-				}
-			}
-
-
-			$errored = array();
-			$lagged = array();
-			try{
-			$replagdata = file( 'https://toolserver.org/~daniel/WikiSense/replag.php?format=text', false, $ctx );
-			} catch(Exception $e) {}
-			ini_set('default_socket_timeout', $old);
-			if( !is_array( $replagdata ) ) return '';
-
-			foreach ( $replagdata as $cluster ){
-				list( $identifier, $status, $lag ) = explode( "\t", $cluster );
-				if( intval( $lag ) > 60 ){
-					$lagged['S' . $identifier] = $lag;
-				}
-				if( $status !== 'OK' ){
-					$errored['S' . $identifier] = $status;
-				}
-			}
-			if( count( $errored ) > 0 ){
-				$html .= '<p>' . _html( 'error-server-status', array( 'variables' => array( implode( ', ', array_keys( $errored ) ) ), 'domain' => 'jarry' ) ) . ' ' . _html( 'error-output-impaired', 'jarry' ) . '</p>';
-				$html .= '<ul>';
-				foreach ( $errored as $cluster => $status ) {
-					$html .= '<li>' . _html( 'server-desc-' . strtolower( $cluster ), 'jarry' );
-					$html .= ' ' . _html( 'error-current-status', array( 'variables' => array( $status ), 'domain' => 'jarry' ) );
-					$html .= '</li>';
-				}
-				$html .= '</ul>';
-				$id .= implode( ', ', array_keys( $errored ) );
-			}
-			$id .= '/';
-			if( count( $lagged ) > 0 ){
-				$html .= '<p>' . _html( 'error-server-lag', array( 'variables' => array( implode( ', ', array_keys( $lagged ) ) ), 'domain' => 'jarry' ) ) . ' ' . _html( 'error-output-impaired', 'jarry' ) . '</p>';
-				$html .= '<ul>';
-				foreach ( $lagged as $cluster => $lag ) {
-					$html .= '<li>' . _html( 'server-desc-' . strtolower( $cluster ), 'jarry' );
-					$html .= ' ' . _html( 'error-lag-duration', array( 'variables' => array( $lag ), 'domain' => 'jarry' ) );
-					$html .= '</li>';
-				}
-				$html .= '</ul>';
-				$id .= implode( ', ', array_keys( $lagged ) );
-			}
-			if( strlen( $html ) === 0 ){
-				return '';
-			} else {
-				return '<div id="statusbox" name="status/'.$id.'/">' . "\n$html\n" . '<p id="dismiss"><a href="javascript:dismiss();"><span>Dismiss</span> <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Fileclose.png" style="width:20px;" /></a></p>'."\n".'</div>';
-			}	*/
 	}
 
 	function getNamespaces( $langcode, $projectcode ) {
