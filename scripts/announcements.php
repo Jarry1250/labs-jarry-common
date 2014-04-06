@@ -18,7 +18,7 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 	*/
 
-	require_once( '/data/project/jarry-common/public_html/mw-peachy/Init.php' );
+	require_once( '/data/project/jarry-common/public_html/peachy/Init.php' );
 	$filename = '/data/project/jarry-common/public_html/scripts/announcements.txt';
 
 	$wiki = Peachy::newWiki( 'livingbot' );
