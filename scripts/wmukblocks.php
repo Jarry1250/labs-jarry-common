@@ -22,7 +22,6 @@
 
 	require_once( '/data/project/jarry-common/public_html/peachy/Init.php' );
 	$wiki = Peachy::newWiki( 'wmuk' );
-	$http = new HTTP();
 
 	// For efficiency, only request newish blocks (last check + some overlap)
 	$lastBlock = $wiki->logs( false, 'Global block importer bot', false, false, false, 'older', false, array( 'timestamp' ), 1 );
@@ -30,6 +29,7 @@
 		? date( 'Y-m-d\TH:i:s\Z', ( strtotime( $lastBlock[0]['timestamp'] ) - 900 ) )
 		: date( 'Y-m-d\TH:i:s\Z', 1000000000 );
 
+	// Get list of blocks from meta
 	$meta = Peachy::newWiki( 'livingbotmeta' );
 	$query = array(
 		'_code' => 'bg',
@@ -43,7 +43,6 @@
 	$blocks = $meta->listHandler( $query );
 
 	echo "\n-----------------\nInitiated at " . date( 'c' ) . "\n" . count( $blocks ) . " blocks found...\n";
-
 	if( count( $blocks ) === 0 ) die( "\n-----------------\n" );
 
 	// Suppress "alreadyblocked" warning messages
@@ -59,7 +58,7 @@
 
 		$commonBits = 32;
 		$address = $block['address'];
-		if( strpos( $address, ':' ) !== false ) continue; // IPv6
+		if( strpos( $address, ':' ) !== false ) continue; // @todo: IPv6
 
 		if( $isRangeBlock ) {
 			list( $address, $commonBits ) = explode( '/', $address );
