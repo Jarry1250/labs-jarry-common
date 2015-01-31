@@ -19,10 +19,11 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 	*/
 
-	function dbconnect( $database, $user = false ) {
+	function dbconnect( $database_, $user = false ) {
 		// connect using user credentials (local-toolname => /data/project/toolname/replica.my.cnf)
 		$mycnf = parse_ini_file( "/data/project/" . substr( get_current_user(), 6 ) . "/replica.my.cnf" );
 
+		$database = str_replace( '-', '_', $database_ );
 		$cluster = ( preg_match( '/[-_]p$/', $database ) ) ? substr( $database, 0, -2 ) : $database;
 		$mysqli = new mysqli( $cluster . '.labsdb', $mycnf['user'], $mycnf['password'] );
 		unset( $mycnf );
@@ -34,7 +35,7 @@
 		}
 
 		// select database
-		$res = $mysqli->select_db( str_replace( '-', '_', $database ) );
+		$res = $mysqli->select_db( $database );
 
 		if( $res === false ){
 			die( '<p class="fail"><strong>Database selection failed.</strong> '
