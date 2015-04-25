@@ -51,7 +51,7 @@ $htmltag
 		<title>Jarry1250's Wikimedia Laboratory - $onesan</title>
 		<meta http-equiv="Content-Type" content="charset=UTF-8" />
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="//tools.wmflabs.org/jarry-common/master.css" />
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script src="//tools.wmflabs.org/jarry-common/jquery.html5form-min.js"></script>
 		<script src="//tools.wmflabs.org/jarry-common/jquery.cookie-min.js"></script>
 		<script type="text/javascript">
