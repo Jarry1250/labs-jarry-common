@@ -24,7 +24,9 @@
 			$this->consumerKey = $params['consumerKey'];
 			$this->apiUrl = $params['apiUrl'];
 
-			session_start();
+			if( session_id() == "" ){
+				session_start();
+			}
 			if ( isset( $_SESSION['tokenKey'] ) ) {
 				$this->tokenKey = $_SESSION['tokenKey'];
 				$this->tokenSecret = $_SESSION['tokenSecret'];
