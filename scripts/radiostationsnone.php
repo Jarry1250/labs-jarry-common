@@ -24,93 +24,24 @@
 	require_once( '/data/project/jarry-common/public_html/libs/database.php' );
 
 	$database = dbconnect( "enwiki-p" );
-	$arzeroth = array();
-	$arfirst = array();
-	$arsecond = array();
-	$arthird = array();
-	$arfourth = array();
-	$arfifth = array();
-	$arsixth = array();
-	$arseventh = array();
-	$areighth = array();
-	$arninth = array();
 
-	function getSql( $tlTitle ) {
-		return "SELECT page_title FROM page INNER JOIN templatelinks ON page_namespace=0 AND page_is_redirect=0 AND page_id = tl_from AND tl_title='" . htmlspecialchars( $tlTitle ) . "' AND tl_namespace=10";
+	$allWithInfobox = array();
+	$allWithInfoboxQuery = $database->query( "SELECT page_title FROM page INNER JOIN templatelinks ON page_namespace=0 AND page_is_redirect=0 AND page_id = tl_from AND tl_title='Infobox_Radio_Station' AND tl_namespace=10" );
+	while( $row = $allWithInfoboxQuery->fetch_row() ){
+		array_push( $allWithInfobox, $row[0] );
 	}
-	$zeroth = $database->query( getSql( 'Infobox_Radio_Station' ) );
-	$first = $database->query( getSql( 'AMQ' ) );
-	$second = $database->query( getSql( 'AML' ) );
-	$third = $database->query( getSql( 'AMARB' ) );
-	$fourth = $database->query( getSql( 'FMQ' ) );
-	$fifth = $database->query( getSql( 'FML' ) );
-	$sixth = $database->query( getSql( 'FMARB' ) );
-	$seventh = $database->query( getSql( 'LPL' ) );
-	$eighth = $database->query( getSql( 'AM_station_data' ) );
-	$ninth = $database->query( getSql( 'FM_station_data' ) );
 
-	while( $row = $zeroth->fetch_row() ){
-		array_push( $arzeroth, $row[0] );
-	}
-	while( $row = $first->fetch_row() ){
-		array_push( $arfirst, $row[0] );
-	}
-	while( $row = $second->fetch_row() ){
-		array_push( $arsecond, $row[0] );
-	}
-	while( $row = $third->fetch_row() ){
-		array_push( $arthird, $row[0] );
-	}
-	while( $row = $fourth->fetch_row() ){
-		array_push( $arfourth, $row[0] );
-	}
-	while( $row = $fifth->fetch_row() ){
-		array_push( $arfifth, $row[0] );
-	}
-	while( $row = $sixth->fetch_row() ){
-		array_push( $arsixth, $row[0] );
-	}
-	while( $row = $seventh->fetch_row() ){
-		array_push( $arseventh, $row[0] );
-	}
-	while( $row = $eighth->fetch_row() ){
-		array_push( $areighth, $row[0] );
-	}
-	while( $row = $ninth->fetch_row() ){
-		array_push( $arninth, $row[0] );
+	$haveTemplates = array();
+	$haveTemplatesQuery = $database->query("SELECT page_title FROM page INNER JOIN templatelinks ON page_namespace=0 AND page_is_redirect=0 AND page_id = tl_from AND ( tl_title='AMQ' OR tl_title='AML' OR tl_title='AMARB' OR tl_title='FMQ' OR tl_title='FML' OR tl_title='FMARB' OR tl_title='LPL' OR tl_title='AM_station_data' OR tl_title='FM_station_data' ) AND tl_namespace=10" );
+	while( $row = $haveTemplatesQuery->fetch_row() ){
+		array_push( $haveTemplates, $row[0] );
 	}
 
 	$problems = array();
-	for( $i = 0; $i < count( $arzeroth ); $i++ ){
-		$page = $arzeroth[$i];
-		if( in_array( $page, $arfirst ) ){
-			continue;
+	foreach( $allWithInfobox as $page ) {
+		if( !in_array( $page, $haveTemplates ) ){
+			array_push( $problems, $page );
 		}
-		if( in_array( $page, $arsecond ) ){
-			continue;
-		}
-		if( in_array( $page, $arthird ) ){
-			continue;
-		}
-		if( in_array( $page, $arfourth ) ){
-			continue;
-		}
-		if( in_array( $page, $arfifth ) ){
-			continue;
-		}
-		if( in_array( $page, $arsixth ) ){
-			continue;
-		}
-		if( in_array( $page, $arseventh ) ){
-			continue;
-		}
-		if( in_array( $page, $areighth ) ){
-			continue;
-		}
-		if( in_array( $page, $arninth ) ){
-			continue;
-		}
-		array_push( $problems, $page );
 	}
 
 	sort( $problems );
