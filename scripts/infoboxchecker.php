@@ -69,16 +69,16 @@
 	designed to give you a usable URL that you can give to others.</p>
 
 <form action="infoboxchecker.php" method="POST" onsubmit="return sub()">
-	<p>Site: <input type="text" name="lang" style="width: 50px" value="<?php echo $_GET['lang']; ?>"/>.wikipedia.org</p>
+	<p>Site: <input type="text" name="lang" style="width: 50px" value="<?php if( isset( $_GET['lang'] ) ) { echo $_GET['lang']; } ?>"/>.wikipedia.org</p>
 
 	<p>Talk page category:<input type="text" name="category" style="width: 200px"
-	                             value="<?php echo $_GET['category']; ?>"/> <input type="checkbox" name="inverse"
+	                             value="<?php if( isset( $_GET['category'] ) ) { echo $_GET['category']; } ?>"/> <input type="checkbox" name="inverse"
 	                                                                               style="margin-left:20px;margin-right:8px;" <?php if( isset( $_GET['inverse'] ) && $_GET['inverse'] ){
 			echo 'checked="checked"';
 		} ?>" value="true"/> Inverse?</p>
 
 	<p>Article template: <input type="text" name="template" style="width: 200px"
-	                            value="<?php echo $_GET['template']; ?>"/></p>
+	                            value="<?php if( isset( $_GET['template'] ) ) { echo $_GET['template']; } ?>"/></p>
 	<input type="submit" value="Go!"/>
 </form>
 <?php
