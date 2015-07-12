@@ -32,7 +32,7 @@
 
 	// connect to database
 	require_once( '/data/project/jarry-common/public_html/libs/database.php' );
-	if( $_GET['lang'] != "" ){
+	if( isset( $_GET['lang'] ) ){
 		$lang = $_GET["lang"];
 		$template = str_replace( " ", "_", $_GET["template"] );
 		$category = str_replace( " ", "_", $_GET["category"] );
@@ -73,7 +73,7 @@
 
 	<p>Talk page category:<input type="text" name="category" style="width: 200px"
 	                             value="<?php echo $_GET['category']; ?>"/> <input type="checkbox" name="inverse"
-	                                                                               style="margin-left:20px;margin-right:8px;" <?php if( $_GET['inverse'] ){
+	                                                                               style="margin-left:20px;margin-right:8px;" <?php if( isset( $_GET['inverse'] ) && $_GET['inverse'] ){
 			echo 'checked="checked"';
 		} ?>" value="true"/> Inverse?</p>
 
@@ -82,7 +82,7 @@
 	<input type="submit" value="Go!"/>
 </form>
 <?php
-	if( $_GET['lang'] != "" ){
+	if( isset( $_GET['lang'] )  ){
 		echo "<h3>Probably incorrectly tagged ($count in total):</h3>\n<ul>\n";
 		for( $i = 0; $i < count( $tagged ); $i++ ){
 			$nt = $tagged[$i];
