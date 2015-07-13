@@ -35,6 +35,7 @@
 	while( $row = $allWithInfoboxQuery->fetch_row() ){
 		array_push( $allWithInfobox, $row[0] );
 	}
+	$allWithInfobox = array_unique( $allWithInfobox );
 
 	$haveTemplates = array();
 	$haveTemplatesQuery = $database->query(
@@ -48,6 +49,7 @@
 	while( $row = $haveTemplatesQuery->fetch_row() ){
 		array_push( $haveTemplates, $row[0] );
 	}
+	$haveTemplates = array_unique( $haveTemplates );
 
 	$problems = array();
 	foreach( $allWithInfobox as $page ) {
