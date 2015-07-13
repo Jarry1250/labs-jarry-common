@@ -31,9 +31,9 @@
 			INNER JOIN templatelinks AS t1 ON page_namespace=0 AND page_is_redirect=0
 				AND page_id=t1.tl_from AND t1.tl_title='Infobox_radio_station' AND t1.tl_namespace=10
 			LEFT JOIN templatelinks AS t2 ON page_id=t2.tl_from AND t2.tl_namespace=10
-				AND ( tl_title='AMQ' OR tl_title='AML' OR tl_title='AMARB' OR tl_title='FMQ'
-					OR tl_title='FML' OR tl_title='FMARB' OR tl_title='LPL' OR tl_title='AM_station_data'
-					OR tl_title='FM_station_data' OR tl_title='LPFM_station_data' )
+				AND ( t2.tl_title='AMQ' OR t2.tl_title='AML' OR t2.tl_title='AMARB' OR t2.tl_title='FMQ'
+					OR t2.tl_title='FML' OR t2.tl_title='FMARB' OR t2.tl_title='LPL' OR t2.tl_title='AM_station_data'
+					OR t2.tl_title='FM_station_data' OR t2.tl_title='LPFM_station_data' )
 		 WHERE t2.tl_namespace IS NULL;"
 	);
 	while( $row = $allWithInfoboxQuery->fetch_row() ){
