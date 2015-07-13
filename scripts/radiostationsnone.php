@@ -25,43 +25,28 @@
 
 	$database = dbconnect( "enwiki-p" );
 
-	$allWithInfobox = array();
+	$pages = array();
 	$allWithInfoboxQuery = $database->query(
-		"SELECT page_title FROM page INNER JOIN templatelinks ON page_namespace=0
-		AND page_is_redirect=0 AND page_id=tl_from AND tl_title='Infobox_radio_station' AND tl_namespace=10"
+		"SELECT page_title FROM page
+			INNER JOIN templatelinks AS t1 ON page_namespace=0 AND page_is_redirect=0
+				AND page_id=t1.tl_from AND t1.tl_title='Infobox_radio_station' AND t1.tl_namespace=10
+			LEFT JOIN templatelinks AS t2 ON page_id=t2.tl_from AND t2.tl_namespace=10
+				AND ( tl_title='AMQ' OR tl_title='AML' OR tl_title='AMARB' OR tl_title='FMQ'
+					OR tl_title='FML' OR tl_title='FMARB' OR tl_title='LPL' OR tl_title='AM_station_data'
+					OR tl_title='FM_station_data' OR tl_title='LPFM_station_data' )
+		 WHERE t2.tl_namespace IS NULL;"
 	);
 	while( $row = $allWithInfoboxQuery->fetch_row() ){
-		array_push( $allWithInfobox, $row[0] );
+		array_push( $pages, $row[0] );
 	}
 
-	$haveTemplates = array();
-	$haveTemplatesQuery = $database->query(
-		"SELECT page_title FROM page INNER JOIN templatelinks ON page_namespace=0
-		AND page_is_redirect=0 AND page_id = tl_from
-		AND ( tl_title='AMQ' OR tl_title='AML' OR tl_title='AMARB' OR tl_title='FMQ'
-			OR tl_title='FML' OR tl_title='FMARB' OR tl_title='LPL' OR tl_title='AM_station_data'
-			OR tl_title='FM_station_data' OR tl_title='LPFM_station_data' )
-		AND tl_namespace=10"
-	);
-	while( $row = $haveTemplatesQuery->fetch_row() ){
-		array_push( $haveTemplates, $row[0] );
-	}
-	$haveTemplates = array_unique( $haveTemplates );
-
-	$problems = array();
-	foreach( $allWithInfobox as $page ) {
-		if( !in_array( $page, $haveTemplates ) ){
-			array_push( $problems, $page );
-		}
-	}
-
-	sort( $problems );
-	$count = count( $problems );
+	sort( $pages );
+	$count = count( $pages );
 	echo get_html( 'header', 'Radio stations (2)' );
 	echo '<p>This is a list of pages about radio stations which don\'t use any useful information templates.</p>';
 	echo "<h3>Here's the list ($count listed):</h3>\n<ul>\n";
-	for( $i = 0; $i < count( $problems ); $i++ ){
-		$nt = $problems[$i];
+	for( $i = 0; $i < count( $pages ); $i++ ){
+		$nt = $pages[$i];
 		echo "<li><a href=\"http://en.wikipedia.org/wiki/$nt\">$nt</a> (";
 		echo "<a href=\"http://en.wikipedia.org/wiki/Talk:$nt\">talk</a> | ";
 		echo "<a href=\"http://en.wikipedia.org/w/index.php?title=$nt&action=edit\">edit</a>)</li>\n";
