@@ -28,14 +28,11 @@
 	$allWithInfobox = array();
 	$allWithInfoboxQuery = $database->query(
 		"SELECT page_title FROM page INNER JOIN templatelinks ON page_namespace=0
-		AND page_is_redirect=0 AND page_id = tl_from
-		AND ( tl_title='Infobox_Radio_Station' OR tl_title='Infobox_radio_station' OR tl_title='Infobox_Radio_station' OR tl_title='Radio_station' )
-		AND tl_namespace=10"
+		AND page_is_redirect=0 AND page_id=tl_from AND tl_title='Infobox_radio_station' AND tl_namespace=10"
 	);
 	while( $row = $allWithInfoboxQuery->fetch_row() ){
 		array_push( $allWithInfobox, $row[0] );
 	}
-	$allWithInfobox = array_unique( $allWithInfobox );
 
 	$haveTemplates = array();
 	$haveTemplatesQuery = $database->query(
