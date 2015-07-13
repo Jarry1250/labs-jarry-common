@@ -41,7 +41,8 @@
 		AND page_is_redirect=0 AND page_id = tl_from
 		AND ( tl_title='AMQ' OR tl_title='AML' OR tl_title='AMARB' OR tl_title='FMQ' OR tl_title='FML' 
 			OR tl_title='FMARB' OR tl_title='LPL' OR tl_title='AM_station_data' OR tl_title='FM_station_data' )
-		AND tl_namespace=10" );
+		AND tl_namespace=10"
+	);
 	while( $row = $haveTemplatesQuery->fetch_row() ){
 		array_push( $haveTemplates, $row[0] );
 	}
