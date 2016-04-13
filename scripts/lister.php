@@ -122,7 +122,7 @@
 		$contents = substr( $contents, 0, $pos ) . "\n\n<!--\nAdd new articles to the top of the list, please, and remove the one from the bottom INCLUDING THE EM-DASH ON THE LINE BEFORE. Thanks! \n-->";
 
 	}
-	if( count( $addeds ) > 0 && ( count( $addeds ) < 3 || isset( $_GET['ignoretime'] ) ) && !isset( $_GET['nopost'] ) ){
+	if( count( $addeds ) > 0 && ( count( $addeds ) < 6 || isset( $_GET['ignoretime'] ) ) && !isset( $_GET['nopost'] ) ){
 		$page = new Page( $wiki, "Wikipedia:Good articles/recent" );
 
 		$addedStr = ( count( $addeds ) > 1 ) ? 's (' : ' (';
