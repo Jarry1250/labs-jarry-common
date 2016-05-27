@@ -28,13 +28,13 @@
 		<h2 class="screenreaders">Tools</h2>
 		<div class="boxes-holder">
 			<ul class="boxes">
-				<li><h3><a href="http://tools.wmflabs.org/wikicup/">WikiCup</a></h3><p>Live scores, plus individual and competition totals.</p><p class="source"><a href="https://github.com/Jarry1250/labs-wikicup"><?= _html( 'view-source' , 'general' ); ?></p></li>
-				<li><h3><a href="http://tools.wmflabs.org/svgtranslate/">SVG Translate</a></h3><p>Translate an SVG into a language or your choice.</p></li>
-				<li><h3><a href="http://tools.wmflabs.org/svgcheck/">SVG Check</a></h3><p>Preview the display of SVG files and detect errors.</p><p class="source"><a href="https://github.com/Jarry1250/labs-svgcheck"><?= _html( 'view-source' , 'general' ); ?></p></li>
-				<li><h3><a href="http://tools.wmflabs.org/grep/">Grep</a></h3><p>Search page titles on a wiki using regular expressions.</p><p class="source"><a href="https://github.com/Jarry1250/labs-grep"><?= _html( 'view-source' , 'general' ); ?></p></li>
-				<li><h3><a href="http://tools.wmflabs.org/bytesadded/">BytesAdded</a></h3><p>Show net and absolute bytes added by an autor (en.wp article space only).</p><p class="source"><a href="https://github.com/Jarry1250/labs-bytesadded"><?= _html( 'view-source' , 'general' ); ?></p></li>
-				<li><h3><a href="http://tools.wmflabs.org/wmukevents/">Wikimedia UK events</a></h3><p>Auto-generated .ics (calendar) file</p><p class="source"><a href="https://github.com/Jarry1250/labs-wmukevents"><?= _html( 'view-source' , 'general' ); ?></p></li>
-				<li><h3><a href="http://tools.wmflabs.org/signpost/">Signpost publishing</a></h3><p>Tools built to assist the Signpost's Editor-in-Chief</p><p class="source"><a href="https://github.com/Jarry1250/labs-signpost"><?= _html( 'view-source' , 'general' ); ?></p></li>
+				<li><h3><a href="https://tools.wmflabs.org/wikicup/">WikiCup</a></h3><p>Live scores, plus individual and competition totals.</p><p class="source"><a href="https://github.com/Jarry1250/labs-wikicup"><?= _html( 'view-source' , 'general' ); ?></p></li>
+				<li><h3><a href="https://tools.wmflabs.org/svgtranslate/">SVG Translate</a></h3><p>Translate an SVG into a language or your choice.</p></li>
+				<li><h3><a href="https://tools.wmflabs.org/svgcheck/">SVG Check</a></h3><p>Preview the display of SVG files and detect errors.</p><p class="source"><a href="https://github.com/Jarry1250/labs-svgcheck"><?= _html( 'view-source' , 'general' ); ?></p></li>
+				<li><h3><a href="https://tools.wmflabs.org/grep/">Grep</a></h3><p>Search page titles on a wiki using regular expressions.</p><p class="source"><a href="https://github.com/Jarry1250/labs-grep"><?= _html( 'view-source' , 'general' ); ?></p></li>
+				<li><h3><a href="https://tools.wmflabs.org/bytesadded/">BytesAdded</a></h3><p>Show net and absolute bytes added by an autor (en.wp article space only).</p><p class="source"><a href="https://github.com/Jarry1250/labs-bytesadded"><?= _html( 'view-source' , 'general' ); ?></p></li>
+				<li><h3><a href="https://tools.wmflabs.org/wmukevents/">Wikimedia UK events</a></h3><p>Auto-generated .ics (calendar) file</p><p class="source"><a href="https://github.com/Jarry1250/labs-wmukevents"><?= _html( 'view-source' , 'general' ); ?></p></li>
+				<li><h3><a href="https://tools.wmflabs.org/signpost/">Signpost publishing</a></h3><p>Tools built to assist the Signpost's Editor-in-Chief</p><p class="source"><a href="https://github.com/Jarry1250/labs-signpost"><?= _html( 'view-source' , 'general' ); ?></p></li>
 				<li><h3>Scripts</h3><p>Scripts underlying other tasks performed by my bots</p><p class="source"><a href="https://github.com/Jarry1250/labs-jarry-common"><?= _html( 'view-source' , 'general' ); ?></p></li>
 			</ul>
 <?php

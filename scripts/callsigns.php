@@ -52,9 +52,9 @@
 	echo "<h3>Here's the list:</h3>\n<ul>\n";
 	for( $i = 0; $i < count( $tagged ); $i++ ){
 		$nt = $tagged[$i];
-		echo "<li><a href=\"http://en.wikipedia.org/wiki/$nt\">$nt</a> (";
-		echo "<a href=\"http://en.wikipedia.org/wiki/Talk:$nt\">talk</a> | ";
-		echo "<a href=\"http://en.wikipedia.org/w/index.php?title=$nt&action=edit\">edit</a>)</li>\n";
+		echo "<li><a href=\"https://en.wikipedia.org/wiki/$nt\">$nt</a> (";
+		echo "<a href=\"https://en.wikipedia.org/wiki/Talk:$nt\">talk</a> | ";
+		echo "<a href=\"https://en.wikipedia.org/w/index.php?title=$nt&action=edit\">edit</a>)</li>\n";
 	}
 	echo "</ul>\n";
 	echo get_html( 'footer' );

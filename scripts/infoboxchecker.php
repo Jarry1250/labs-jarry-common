@@ -25,7 +25,7 @@
 		if( $inverse == "true" ){
 			$inverse = "&inverse=true";
 		}
-		header( "Location: http://tools.wmflabs.org/jarry-common/scripts/infoboxchecker.php?lang=$lang&template=$template&category=$category$inverse" );
+		header( "Location: https://tools.wmflabs.org/jarry-common/scripts/infoboxchecker.php?lang=$lang&template=$template&category=$category$inverse" );
 	}
 
 	require_once( '/data/project/jarry-common/public_html/global.php' );
@@ -86,11 +86,11 @@
 		echo "<h3>Probably incorrectly tagged ($count in total):</h3>\n<ul>\n";
 		for( $i = 0; $i < count( $tagged ); $i++ ){
 			$nt = $tagged[$i];
-			echo "<li><a href=\"http://" . $lang . ".wikipedia.org/wiki/$nt\">$nt</a> (";
+			echo "<li><a href=\"https://" . $lang . ".wikipedia.org/wiki/$nt\">$nt</a> (";
 			if( $lang == "en" ){
-				echo "<a href=\"http://" . $lang . ".wikipedia.org/wiki/Talk:$nt\">talk</a> | ";
+				echo "<a href=\"https://" . $lang . ".wikipedia.org/wiki/Talk:$nt\">talk</a> | ";
 			}
-			echo "<a href=\"http://" . $lang . ".wikipedia.org/w/index.php?title=$nt&action=edit\">edit</a>)</li>\n";
+			echo "<a href=\"https://" . $lang . ".wikipedia.org/w/index.php?title=$nt&action=edit\">edit</a>)</li>\n";
 		}
 		echo "</ul>\n";
 	}

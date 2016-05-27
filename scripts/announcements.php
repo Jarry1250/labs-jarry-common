@@ -193,7 +193,7 @@
 			case "on-template":
 				// This way is messier, but more reliable, than grabbing the Wiki edit page because of protection
 				$identifier = str_replace( " ", "_", $identifier );
-				$page = file_get_contents( "http://en.wikipedia.org/wiki/Template:" . $identifier );
+				$page = file_get_contents( "https://en.wikipedia.org/wiki/Template:" . $identifier );
 				preg_match( "/[^0-9a-zA-Z]p[^0-9a-zA-Z]([0-9]{4,6})[^0-9a-zA-Z!]\/p[^0-9a-zA-Z!]/", $page, $matches );
 				return $matches[1];
 				break;
