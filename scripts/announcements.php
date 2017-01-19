@@ -24,8 +24,8 @@
 	$wiki = Peachy::newWiki( 'livingbot' );
 	$page = initPage( 'Wikipedia:Announcements' );
 
-	$updateonly = ( $_GET['update'] == "y" );
-	$human = ( $_GET['check'] == "y" );
+	$updateonly = ( isset( $_GET['update'] ) && $_GET['update'] == "y" );
+	$human = ( isset( $_GET['check'] ) && $_GET['check'] == "y" );
 
 	// Load list of projects to check
 	$lines = file( $filename );
