@@ -151,6 +151,8 @@
 		} else {
 			$post = "=== " . $date . " ===\n";
 		}
+
+		$actualChange = false;
 		for( $i = 0; $i < count( $messages ); $i++ ){
 			if( stripos( $pagetext, $messages[$i] ) !== false || stripos( $post, $messages[$i] ) != false ){
 				// For some reason, this post has been before
@@ -160,8 +162,9 @@
 			if( $i !== ( count( $messages ) - 1 ) ){
 				$post .= "\n";
 			}
+			$actualChange = true;
 		}
-		if( strlen( $post ) < 3 ){
+		if( strlen( $post ) < 3 || !$actualChange ){
 			die( "Would have been a null edit." );
 		}
 		// If the date header has already been added for today
