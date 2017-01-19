@@ -178,9 +178,12 @@
 		if( $human ){
 			echo "<pre>$post</pre>";
 		} else {
-			if( $page->edit( $newpage, "Bot adding milestone(s) from WikiProject(s). [[User_talk:LivingBot|Incorrect?]] Or do you want to [[User:LivingBot/ProjectSignup|sign up your project]]?" ) !== false ){
+			$result = $page->edit( $newpage, "Bot adding milestone(s) from WikiProject(s). [[User_talk:LivingBot|Incorrect?]] Or do you want to [[User:LivingBot/ProjectSignup|sign up your project]]?" );
+			if( $result !== false ){
 				// Update list of projects with new counts, ready for next time.
 				file_put_contents( $filename, $newfile );
+			} else {
+				die( "Could not save -- $result" );
 			}
 		}
 	}
