@@ -145,10 +145,15 @@
 		$date = date( "j F Y" );
 		// Get existing page
 		$pagetext = $page->get_text();
+
+		$heading = false;
+		$pos = false;
 		// Draw up the post
 		if( preg_match( ( "/===[ ]*" . $date . "[ ]*===/" ), $pagetext, $temp ) ){
-			$existsat = stripos( $pagetext, $temp[0] ) + strlen( $temp[0] );
+			$heading = $temp[0];
+			$pos = stripos( $pagetext, $temp[0] );
 		} else {
+			// $heading and $pos will be fixed later
 			$post = "=== " . $date . " ===\n";
 		}
 
@@ -164,19 +169,30 @@
 			}
 			$actualChange = true;
 		}
+
+		// $pos will already be non-false if the date header has already been added for today
+		if( $pos === false ) {
+			// Else if a year heading exists, add underneath *that*
+			$heading = '== ' . date( "Y" ) . ' ==';
+			$pos     = stripos( $pagetext, $heading );
+		}
+		if( $pos === false ) {
+			// Else add under the main heading
+			$heading = '== Milestones ==';
+			$pos     = stripos( $pagetext, $heading );
+		}
+
 		if( strlen( $post ) < 3 || !$actualChange ){
 			die( "Would have been a null edit." );
 		}
-		// If the date header has already been added for today
-		if( isset( $existsat ) ){
-			// Add below that
-			$newpage = substr( $pagetext, 0, $existsat ) . "\n" . $post . substr( $pagetext, $existsat );
-		} else {
-			// Else add under the main heading
-			$heading = '==Milestones==';
-			$existsat = stripos( $pagetext, $heading ) + strlen( $heading );
-			$newpage = substr( $pagetext, 0, $existsat ) . "\n" . $post . substr( $pagetext, $existsat );
+
+		if( $pos === false || $heading === false ){
+			die( "Would have been a broken edit." );
 		}
+
+		$insertat = $pos + strlen( $heading );
+		$newpage = substr( $pagetext, 0, $insertat ) . "\n" . $post . substr( $pagetext, $insertat );
+
 		// Write changes
 		if( $human ){
 			echo "<pre>$post</pre>";
