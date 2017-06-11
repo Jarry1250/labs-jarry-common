@@ -39,15 +39,15 @@
 		$timestamp = floatval( str_replace( array( "-", ":", "T", "Z" ), "", $page->get_lastedit( true ) ) );
 		array_push( $timestamps, $timestamp );
 	}
-	$timestamp = max( $timestamps );
+	$mostRecentEditTimestamp = max( $timestamps );
 
 	if( ( !isset( $_GET['nopost'] ) || $_GET['nopost'] != "y" ) && ( !isset( $_GET['ignoretime'] ) || $_GET['ignoretime'] != 'y' ) ){
-		$backfive = time() - 700;
-		$nowstring = floatval( date( "YmdHis", $backfive ) );
+		$previousCheck = time() - ( 16 * 60 ); // Slight overlapping is fine
+		$previousCheckTimestamp = date( "YmdHis", $previousCheck );
 
-		echo "Last check was at: " . $nowstring . "\n";
-		echo "Last edit was at: " . $timestamp . "\n";
-		if( $nowstring > $timestamp ){
+		echo "Last check was at: " . $previousCheckTimestamp . "\n";
+		echo "Last edit was at: " . $mostRecentEditTimestamp . "\n";
+		if( floatval( $previousCheckTimestamp ) > $mostRecentEditTimestamp ){
 			echo "No edits since last-but-one check.\n";
 			echo "--- Finishing report ---\n";
 			die();
