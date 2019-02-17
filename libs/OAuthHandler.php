@@ -16,7 +16,8 @@
 		private $tokenSecret;
 		private $tokenKey;
 		private $userAgent = 'Wikimedia Labs/jarry-common OAuth Handler';
-		private $mwOAuthUrl = 'https://www.mediawiki.org/w/index.php?title=Special:OAuth';
+		private $mwOAuthUrl = 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth';
+		private $mwOAuthAuthorizeUrl = 'https://meta.wikimedia.org/wiki/Special:OAuth/authorize';
 		private $apiUrl;
 
 		public function __construct( $params ){
@@ -35,7 +36,7 @@
 		}
 
 		/**
-		 * Utility public function to sign a request
+		 * Utility function to sign a request
 		 *
 		 * Note this doesn't properly handle the case where a parameter is set both in
 		 * the query string in $url and in $params, or non-scalar values in $params.
@@ -145,7 +146,7 @@
 			session_write_close();
 
 			// Then we send the user off to authorize
-			$url = $this->mwOAuthUrl . '/authorize';
+			$url = $this->mwOAuthAuthorizeUrl;
 			$url .= strpos( $url, '?' ) ? '&' : '?';
 			$url .= http_build_query(
 				array(
@@ -199,6 +200,8 @@
 			if( is_object( $token ) && isset( $token->error ) ){
 				header( "HTTP/1.1 500 Internal Server Error" );
 				echo 'Error retrieving token: ' . htmlspecialchars( $token->error );
+				echo '<br><br>' . print_r( $token, true );
+				echo '<br><br>' . $url;
 				exit( 0 );
 			}
 			if( !is_object( $token ) || !isset( $token->key ) || !isset( $token->secret ) ){
