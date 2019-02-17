@@ -28,7 +28,7 @@
 		<h2 class="screenreaders">Tools</h2>
 		<div class="boxes-holder">
 			<ul class="boxes">
-				<li><h3><a href="https://tools.wmflabs.org/templatecount/">TemplateCount</a></h3><p>Count the number of transclusions a template has.</p><p class="source"><a href="https://github.com/Jarry1250/labs-templatecount"><?= _html( 'view-source' , 'general' ); ?></p></li>
+				<li><h3><a href="https://tools.wmflabs.org/templatecount/">TemplateCount</a></h3><p>Count the number of transclusions a template has.</p><p class="source"><a href="https://github.com/Jarry1250/labs-templatecount"><?= _html( 'view-source' , 'general' ); ?></a></p></li>
 				<li><h3><a href="https://tools.wmflabs.org/wikicup/">WikiCup</a></h3><p>Live scores, plus individual and competition totals.</p><p class="source"><a href="https://github.com/Jarry1250/labs-wikicup"><?= _html( 'view-source' , 'general' ); ?></p></li>
 				<li><h3><a href="https://tools.wmflabs.org/svgcheck/">SVG Check</a></h3><p>Preview the display of SVG files and detect errors.</p><p class="source"><a href="https://github.com/Jarry1250/labs-svgcheck"><?= _html( 'view-source' , 'general' ); ?></p></li>
 				<li><h3><a href="https://tools.wmflabs.org/grep/">Grep</a></h3><p>Search page titles on a wiki using regular expressions.</p><p class="source"><a href="https://github.com/Jarry1250/labs-grep"><?= _html( 'view-source' , 'general' ); ?></p></li>
