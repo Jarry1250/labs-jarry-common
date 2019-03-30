@@ -21,8 +21,8 @@
 
 	function dbconnect( $database, $user = false ) {
 		// connect using user credentials (local-toolname => /data/project/toolname/replica.my.cnf)
-		preg_match( '/^\/data\/project\/(.*?)\//', getcwd(), $path );
-		$mycnf = parse_ini_file( $path[0] . "replica.my.cnf" );
+		preg_match( '/\/([^\/]+)\/public_html/', getcwd(), $path );
+		$mycnf = parse_ini_file( '/data/project/' . $path[1] . "/replica.my.cnf" );
 
 		$cluster = ( preg_match( '/[-_]p$/', $database ) ) ? substr( $database, 0, -2 ) : $database;
 		$mysqli = new mysqli( $cluster . '.labsdb', $mycnf['user'], $mycnf['password'] );
