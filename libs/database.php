@@ -24,7 +24,8 @@
 		preg_match( '/\/([^\/]+)\/public_html/', getcwd(), $path );
 		$mycnf = parse_ini_file( '/data/project/' . $path[1] . "/replica.my.cnf" );
 
-		$cluster = ( preg_match( '/[-_]p$/', $database ) ) ? substr( $database, 0, -2 ) : $database;
+		$database = str_replace( '-', '_', $database );
+		$cluster = ( preg_match( '/_p$/', $database ) ) ? substr( $database, 0, -2 ) : $database;
 		$mysqli = new mysqli( $cluster . '.labsdb', $mycnf['user'], $mycnf['password'] );
 		unset( $mycnf );
 
@@ -35,7 +36,7 @@
 		}
 
 		// select database
-		$res = $mysqli->select_db( str_replace( '-', '_', $database ) );
+		$res = $mysqli->select_db( $database );
 
 		if( $res === false ){
 			die( '<p class="fail"><strong>Database selection failed.</strong> '
