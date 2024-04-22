@@ -45,7 +45,7 @@
 		$previousCheck = time() - ( 16 * 60 ); // Slight overlapping is fine
 		$previousCheckTimestamp = date( "YmdHis", $previousCheck );
 
-		echo "Last check was at: " . $previousCheckTimestamp . "\n";
+		echo "Last check was at: $previousCheck (" . $previousCheckTimestamp . ")\n";
 		echo "Last edit was at: " . $mostRecentEditTimestamp . "\n";
 		if( floatval( $previousCheckTimestamp ) > $mostRecentEditTimestamp ){
 			echo "No edits since last-but-one check.\n";
