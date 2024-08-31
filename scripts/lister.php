@@ -22,16 +22,20 @@
 
 	echo "\n--- Beginning report ---\n";
 	$wiki = Peachy::newWiki( 'livingbot' );
+	$pageNames = [ "Wikipedia:Good articles/all", "Wikipedia:Good articles/all2" ];
+	$subpages = [];
 
-	$page = new Page( $wiki, "Wikipedia:Good articles/all" );
-	$contents = $page->get_text();
-	$bits = explode( "<!-- Do not remove this line, LivingBot", $contents, 2 );
+	foreach( $pageNames as $pageName ) {
+		$page = new Page( $wiki, $pageName );
+		$contents = $page->get_text();
+		$bits = explode( "User:LivingBot", $contents, 2 );
 
-	if( count( $bits ) !== 2 ) die( "Breakline not found. Terminating.\n" );
+		if( count( $bits ) !== 2 ) die( "Breakline not found on $pageName. Terminating.\n" );
 
-	preg_match_all( "/\{\{Wikipedia:Good articles\/([^}]+)\}\}/i", $bits[1], $subpages );
-	$subpages = $subpages[1];
-	echo "Recognised " . count( $subpages )  . "  subpages\n";
+		preg_match_all( "/\{\{Wikipedia:Good articles\/([^}]+)\}\}/i", $bits[1], $matches );
+		$subpages = array_merge( $subpages, $matches[1] );
+	}
+	echo "Recognised " . count( $subpages ) . " subpages\n";
 
 	$timestamps = array();
 	foreach( $subpages as $subpage ){
