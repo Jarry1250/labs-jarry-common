@@ -25,6 +25,7 @@
 	$pageNames = [ "Wikipedia:Good articles/all", "Wikipedia:Good articles/all2" ];
 	$subpages = [];
 
+	// Find all valid subpages by seeing what is transcluded from those pages
 	foreach( $pageNames as $pageName ) {
 		$page = new Page( $wiki, $pageName );
 		$contents = $page->get_text();
@@ -37,31 +38,39 @@
 	}
 	echo "Recognised " . count( $subpages ) . " subpages\n";
 
+	// Find the most recent edit across all those subpages
 	$timestamps = array();
-	foreach( $subpages as $subpage ){
+	foreach( $subpages as $subpage ) {
 		$page = new Page( $wiki, "Wikipedia:Good articles/$subpage" );
 		$timestamp = floatval( str_replace( array( "-", ":", "T", "Z" ), "", $page->get_lastedit( true ) ) );
 		array_push( $timestamps, $timestamp );
 	}
 	$mostRecentEditTimestamp = max( $timestamps );
 
-	if( ( !isset( $_GET['nopost'] ) || $_GET['nopost'] != "y" ) && ( !isset( $_GET['ignoretime'] ) || $_GET['ignoretime'] != 'y' ) ){
+	// If it's not within the last 15 minutes or so, stop now.
+	// Can be overridden with nopost=y or ignoretime=y
+	if( ( !isset( $_GET['nopost'] ) || $_GET['nopost'] != "y" ) && ( !isset( $_GET['ignoretime'] ) || $_GET['ignoretime'] != 'y' ) ) {
 		$previousCheck = time() - ( 16 * 60 ); // Slight overlapping is fine
 		$previousCheckTimestamp = date( "YmdHis", $previousCheck );
 
 		echo "Last check was at: $previousCheck (" . $previousCheckTimestamp . ")\n";
 		echo "Last edit was at: " . $mostRecentEditTimestamp . "\n";
-		if( floatval( $previousCheckTimestamp ) > $mostRecentEditTimestamp ){
+		if( floatval( $previousCheckTimestamp ) > $mostRecentEditTimestamp ) {
 			echo "No edits since last-but-one check.\n";
 			echo "--- Finishing report ---\n";
 			die();
 		}
 		echo "Edits since last-but-one check, proceeding...\n";
+	} else {
+		echo "Skipping last edit check...\n";
 	}
 
+	// Load the existing list
 	$existing = strtolower( file_get_contents( $filename ) );
+
+	// Get a new combined list in memory
 	$articles = array();
-	foreach( $subpages as $subpage ){
+	foreach( $subpages as $subpage ) {
 		$page = new Page( $wiki, "Wikipedia:Good articles/$subpage" );
 		$contents = $page->get_text();
 		preg_match_all( "/('')?\[\[([^]:]*)\]\]('')?/i", $contents, $temp );
@@ -70,45 +79,48 @@
 	}
 	$total = strtolower( implode( "\t", $articles ) );
 
+	// Get a list of articles under discussion
 	$page = new Page( $wiki, "Wikipedia talk:Good articles" );
 	$contents = $page->get_text();
 	preg_match_all( "/('')?\[\[([^]:]*)\]\]('')?/i", $contents, $underDiscussion );
 
+	// Get the current list of articles
 	$page = new Page( $wiki, "Wikipedia:Good articles/recent" );
 	$contents = $page->get_text();
 	preg_match_all( "/('')?\[\[([^]:]*)\]\]('')?/i", $contents, $recents );
 	$recentlist = $recents[0];
 
-	if( count( $articles ) == count( explode( "\t", $existing ) ) ){
+	// Run some sanity checks on the number of articles
+	if( count( $articles ) == count( explode( "\t", $existing ) ) ) {
 		file_put_contents( $filename, $total );
 		echo "Overall, the number of GAs has remained the same. Assuming only renames, or similar.\n";
 		echo "--- Finishing report ---\n";
 		die();
 	}
-
-	if( count( $articles ) < ( count( explode( "\t", $existing ) ) ) ){
+	if( count( $articles ) < ( count( explode( "\t", $existing ) ) ) ) {
 		file_put_contents( $filename, $total );
 		echo "Overall, the number of GAs has gone down. Assumed malfunction.\n";
 		echo "--- Finishing report ---\n";
 		die();
 	}
 
+	// Now, through through every article and decide whether to add it to /recent
 	$addeds = array();
 	$removeds = array();
 	echo "Presently listed items:\n* " . implode( $recentlist, "\n* " ) . "\n";
-	foreach( $articles as $article ){
+	foreach( $articles as $article ) {
 		$delimiter = ( strpos( $article, "|" ) > 0 ) ? '|' : ']';
 		$subitem = substr( $article, strpos( $article, "[" ), ( strpos( $article, $delimiter ) - strpos( $article, "[" ) ) );
 		$subitem = strtolower( $subitem );
-		if( strpos( $existing, $subitem ) !== false ){
+		if( strpos( $existing, $subitem ) !== false ) {
 			// Already known to the bot
 			continue;
 		}
-		if( strpos( strtolower( implode( "", $recentlist ) ), $subitem ) !== false ){
+		if( strpos( strtolower( implode( "", $recentlist ) ), $subitem ) !== false ) {
 			// Already listed on /recent: presumably manually added
 			continue;
 		}
-		if( strpos( strtolower( implode( "", $underDiscussion[0] ) ), $subitem ) !== false ){
+		if( strpos( strtolower( implode( "", $underDiscussion[0] ) ), $subitem ) !== false ) {
 			// A link target of the WT:GA page: under discussion/controversial
 			continue;
 		}
@@ -126,7 +138,9 @@
 		$contents = substr( $contents, 0, $pos ) . "\n\n<!--\nAdd new articles to the top of the list, please, and remove the one from the bottom INCLUDING THE EM-DASH ON THE LINE BEFORE. Thanks! \n-->";
 
 	}
-	if( count( $addeds ) > 0 && ( count( $addeds ) < 6 || isset( $_GET['ignoretime'] ) ) && !isset( $_GET['nopost'] ) ){
+
+	// Make the required edit
+	if( count( $addeds ) > 0 && ( count( $addeds ) < 6 || isset( $_GET['ignoretime'] ) ) && !isset( $_GET['nopost'] ) ) {
 		$page = new Page( $wiki, "Wikipedia:Good articles/recent" );
 
 		$addedStr = ( count( $addeds ) > 1 ) ? 's (' : ' (';
@@ -138,7 +152,7 @@
 		$editSummary = "Bot adding recently promoted article$addedStr, removing oldest entr$removedStr. [[User_talk:LivingBot|Incorrect?]]";
 
 		$i = 0;
-		while( ++$i < 5 ){
+		while( ++$i < 5 ) {
 			if( $page->edit( $contents, substr( $editSummary, 0, 250 ), false, true ) !== false ) break;
 			sleep( 5 );
 		}
