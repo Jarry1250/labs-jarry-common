@@ -73,7 +73,7 @@
 	foreach( $subpages as $subpage ) {
 		$page = new Page( $wiki, "Wikipedia:Good articles/$subpage" );
 		$contents = $page->get_text();
-		preg_match_all( "/('')?\[\[([^]:]*)\]\]('')?/i", $contents, $temp );
+		preg_match_all( "/('')?\[\[([^]:#][^]:]*)\]\]('')?/i", $contents, $temp );
 		echo count( $temp[0] ) . "-";
 		$articles = array_merge( $articles, $temp[0] );
 	}
