@@ -98,10 +98,12 @@ EOT;
 				$html .= "\n\t\t</div>\n\t\t<div id='footer'>";
 				$html .= $I18N->getPromoBox();
 				$html .= "\n\t\t\t\t<p id='footerleft'>";
+				// Need to suppress deprecation warning in PHP>=8
+				$d = @$I18N->dateFormatted( filemtime( realpath( $_SERVER["SCRIPT_FILENAME"] ) ) );
 				$html .= _html(
 							 'last-modified-date', array(
 								 'domain' => 'general',
-								 'variables' => array( $I18N->dateFormatted( filemtime( realpath( $_SERVER["SCRIPT_FILENAME"] ) ) ) )
+								 'variables' => array( $d )
 							 )
 						 ) . " &ndash; ";
 				$html .= _html( 'options', 'general' ) . ': <a href="https://github.com/Jarry1250/labs-' . explode('.', $_SERVER['HTTP_HOST'] )[0] . '/">' . _html( 'view-source', 'general' ) . '</a> &ndash; ';
