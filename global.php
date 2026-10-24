@@ -50,10 +50,10 @@ $htmltag
 	<head>
 		<title>Jarry1250's Wikimedia Laboratory - $onesan</title>
 		<meta http-equiv="Content-Type" content="charset=UTF-8" />
-		<link rel="stylesheet" type="text/css" media="screen, projection" href="//tools.wmflabs.org/jarry-common/master.css" />
+		<link rel="stylesheet" type="text/css" media="screen, projection" href="//jarry-common.toolforge.org/master.css" />
 		<script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script src="//tools.wmflabs.org/jarry-common/jquery.html5form-min.js"></script>
-		<script src="//tools.wmflabs.org/jarry-common/jquery.cookie-min.js"></script>
+		<script src="//jarry-common.toolforge.org/jquery.html5form-min.js"></script>
+		<script src="//jarry-common.toolforge.org/jquery.cookie-min.js"></script>
 		<script type="text/javascript">
 			function dismiss(){
 				$('#statusbox').hide();
@@ -84,7 +84,7 @@ $htmltag
 	</head>
 	<body>
 		<div id="header">
-			<h1><a href="http://tools.wmflabs.org/jarry-common"><span class="b">J</span>arry1250's <span class="b">T</span>ools<img src="//tools.wmflabs.org/jarry-common/labs-logo.png" title="Powered by Wikimedia Labs" border="0" width="32px" alt="Powered by Wikimedia Labs"></a></h1>
+			<h1><a href="http://jarry-common.toolforge.org/"><span class="b">J</span>arry1250's <span class="b">T</span>ools<img src="//jarry-common.toolforge.org/labs-logo.png" title="Powered by Wikimedia Labs" border="0" width="32px" alt="Powered by Wikimedia Labs"></a></h1>
 			<h2>$onesan</h2>
 		</div>
 			<div id="content">
