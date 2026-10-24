@@ -96,7 +96,10 @@ EOT;
 					$html = "\n\t\t\t<br style='clear:both'/><hr />\n\t\t\t$one";
 				}
 				$html .= "\n\t\t</div>\n\t\t<div id='footer'>";
-				$html .= $I18N->getPromoBox();
+
+				// Patch promo box to display valid thumbnail size (20px at 2x)
+				$html .= str_replace('"28"', '"20"', str_replace("56px", "20px", $I18N->getPromoBox()));
+
 				$html .= "\n\t\t\t\t<p id='footerleft'>";
 				// Need to suppress deprecation warning in PHP>=8
 				$d = @$I18N->dateFormatted( filemtime( realpath( $_SERVER["SCRIPT_FILENAME"] ) ) );
