@@ -19,14 +19,15 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 	*/
 
-	function dbconnect( $database, $user = false ) {
+	function dbconnect( $database, $user = false, $extension = "" ) {
 		// connect using user credentials (local-toolname => /data/project/toolname/replica.my.cnf)
 		preg_match( '/\/([^\/]+)\/public_html/', getcwd(), $path );
 		$mycnf = parse_ini_file( '/data/project/' . $path[1] . "/replica.my.cnf" );
 
 		$database = str_replace( '-', '_', $database );
-		$cluster = ( preg_match( '/_p$/', $database ) ) ? substr( $database, 0, -2 ) : $database;
-		$mysqli = new mysqli( $cluster . '.labsdb', $mycnf['user'], $mycnf['password'] );
+		$language = ( preg_match( '/[-_]p$/', $database ) ) ? substr( $database, 0, -2 ) : $database;
+		if ($extension !== "") $extension = "$extension.";
+		$mysqli = new mysqli( $extension . $language . '.web.db.svc.wikimedia.cloud', $mycnf['user'], $mycnf['password'] );
 		unset( $mycnf );
 
 		if( $mysqli->connect_error ) {
